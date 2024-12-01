@@ -1,0 +1,29 @@
+# Игнорирование директорий виртуального окружения
+venv/
+
+# Игнорирование временных файлов и папок
+Videos/
+Цифровая кафедра/
+DIP/РК1/
+Images/
+*.py[cod]
+*.log
+*.sqlite3
+
+#Игнорирование .py-файлов
+First_steps.py
+image_video.py
+match_templating.py
+PiCamera_client.py
+socket_server.py
+Stepik_course.py
+Курсач_ПОЭП.py
+
+# Игнорирование настроек IDE
+.idea/
+.vscode/
+*.iml
+
+# Игнорирование файлов конфигурации
+*.env
+
