@@ -86,7 +86,7 @@ filter_laplas_2 = np.array([[0, -1, 0],
                             [-1,  4, -1],
                             [0, -1, 0]])
 
-sharpening(r"C:\Users\user\PycharmProjects\PythonProject\DIP\Project\Images\Lenna_test_image.png", filter_laplas_1) # 1231231
+sharpening(r"C:\Users\user\PycharmProjects\PythonProject\DIP\Project\Images\Lenna_test_image.png", filter_laplas_1)
 
 
 
