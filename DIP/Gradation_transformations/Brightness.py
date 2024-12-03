@@ -71,4 +71,4 @@ def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     plt.tight_layout()
     plt.show()
 
-brightness(r"D:\pythonProject\DIP\Project\Images\Lenna_test_image.png", 100)
+brightness(r"D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png", 100)
