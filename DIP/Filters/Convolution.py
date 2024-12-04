@@ -16,9 +16,9 @@ img = cv.imread(r"D:\pythonProject\DIP\Project\Images\Lenna_test_image.png", cv.
 #                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
 #                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]) / 11
 
-kernel = np.array([[-1, 0, -1],
-                   [0,  4, 0],
-                   [-1, 0, -1]])
+kernel = np.array([[0, 1, 0],
+                   [0,  1, 0],
+                   [0, 1, 0]])
 
 h, w = img.shape
 kh, kw = kernel.shape
