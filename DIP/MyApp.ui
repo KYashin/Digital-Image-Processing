@@ -817,16 +817,16 @@ QPushButton:disabled {
 }</string>
         </property>
         <property name="title">
-         <string>Гамма-коррекция</string>
+         <string>Использование всего диапазона</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
-        <widget class="QPushButton" name="pushButton_gamma_2">
+        <widget class="QPushButton" name="pushButton_full">
          <property name="geometry">
           <rect>
            <x>70</x>
-           <y>120</y>
+           <y>70</y>
            <width>200</width>
            <height>60</height>
           </rect>
@@ -839,76 +839,22 @@ QPushButton:disabled {
           </font>
          </property>
          <property name="statusTip">
-          <string>Применить гамма-коррекцию</string>
+          <string>Применить градационное преобразование для использования всего диапазона значений</string>
          </property>
          <property name="text">
           <string>Применить</string>
          </property>
         </widget>
-        <widget class="QSlider" name="horizontalSlider_gamma_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>60</y>
-           <width>320</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="statusTip">
-          <string>Ползунок для выбора коэффициента гамма-коррекции</string>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>500</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_gamma_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>311</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Выбор коэффициента гамма-коррекции (от 0.1 до 5.0):</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_2_gamma_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>150</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Выбранный коэффициент:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_gamma_2">
-         <property name="geometry">
-          <rect>
-           <x>170</x>
-           <y>90</y>
-           <width>113</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
+       </widget>
+       <widget class="QGraphicsView" name="graphicsView">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>460</y>
+          <width>256</width>
+          <height>192</height>
+         </rect>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="gif">
