@@ -62,7 +62,7 @@ def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     plt.tight_layout()
     plt.show()
 
-contrast(r'D:\pythonProject\DIP\Project\Images\mountains-8567074_640.webp', 2.4)
+contrast(r'C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png', 1.5)
 
 
 

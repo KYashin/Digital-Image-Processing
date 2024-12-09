@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1129</width>
+    <width>1077</width>
     <height>873</height>
    </rect>
   </property>
@@ -101,8 +101,8 @@ QTabBar::tab:disabled {
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>321</width>
-          <height>151</height>
+          <width>340</width>
+          <height>190</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -116,6 +116,37 @@ QTabBar::tab:disabled {
           <pointsize>12</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
+        </property>
         <property name="title">
          <string>Негатив и эквализация гистограммы</string>
         </property>
@@ -125,15 +156,17 @@ QTabBar::tab:disabled {
         <widget class="QPushButton" name="button_negative">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>20</y>
+           <x>20</x>
+           <y>40</y>
            <width>300</width>
            <height>60</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>18</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
           </font>
          </property>
          <property name="statusTip">
@@ -146,8 +179,8 @@ QTabBar::tab:disabled {
         <widget class="QPushButton" name="button_equalization">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>80</y>
+           <x>20</x>
+           <y>120</y>
            <width>300</width>
            <height>60</height>
           </rect>
@@ -160,7 +193,9 @@ QTabBar::tab:disabled {
          </property>
          <property name="font">
           <font>
-           <pointsize>18</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
           </font>
          </property>
          <property name="statusTip">
@@ -174,8 +209,8 @@ QTabBar::tab:disabled {
        <widget class="QGroupBox" name="groupBox_binarization">
         <property name="geometry">
          <rect>
-          <x>740</x>
-          <y>560</y>
+          <x>700</x>
+          <y>0</y>
           <width>340</width>
           <height>190</height>
          </rect>
@@ -184,6 +219,37 @@ QTabBar::tab:disabled {
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
         </property>
         <property name="title">
          <string>Бинаризация</string>
@@ -201,7 +267,7 @@ QTabBar::tab:disabled {
           </rect>
          </property>
          <property name="statusTip">
-          <string>Ползунок для выбора порога</string>
+          <string>Ползунок для выбора порога бинаризации</string>
          </property>
          <property name="minimum">
           <number>0</number>
@@ -221,12 +287,12 @@ QTabBar::tab:disabled {
           <rect>
            <x>10</x>
            <y>30</y>
-           <width>151</width>
+           <width>221</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Выбор порога от 0 до 255:</string>
+          <string>Выбор порога бинаризации от 0 до 255:</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_binarization">
@@ -255,7 +321,7 @@ QTabBar::tab:disabled {
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Выбранный попрог:</string>
+          <string>Выбранный порог:</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_binarization">
@@ -269,11 +335,16 @@ QTabBar::tab:disabled {
          </property>
          <property name="font">
           <font>
-           <pointsize>18</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
           </font>
          </property>
          <property name="statusTip">
           <string>Применить бинаризацию</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Применить </string>
@@ -283,32 +354,11 @@ QTabBar::tab:disabled {
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>310</y>
-          <width>200</width>
-          <height>60</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="statusTip">
-         <string>Применить изменение контраста</string>
-        </property>
-        <property name="text">
-         <string>Применить</string>
-        </property>
-       </widget>
        <widget class="QGroupBox" name="groupBox_brightness">
         <property name="geometry">
          <rect>
-          <x>400</x>
-          <y>560</y>
+          <x>350</x>
+          <y>0</y>
           <width>340</width>
           <height>190</height>
          </rect>
@@ -317,6 +367,37 @@ QTabBar::tab:disabled {
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
         </property>
         <property name="title">
          <string>Изменение яркости</string>
@@ -335,8 +416,13 @@ QTabBar::tab:disabled {
          </property>
          <property name="font">
           <font>
-           <pointsize>18</pointsize>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="statusTip">
+          <string>Применить изменение яркости</string>
          </property>
          <property name="text">
           <string>Применить</string>
@@ -352,7 +438,16 @@ QTabBar::tab:disabled {
           </rect>
          </property>
          <property name="statusTip">
-          <string>Ползунок для выбора коэффициента</string>
+          <string>Ползунок для выбора коэффициента яркости</string>
+         </property>
+         <property name="minimum">
+          <number>-150</number>
+         </property>
+         <property name="maximum">
+          <number>150</number>
+         </property>
+         <property name="singleStep">
+          <number>3</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -363,12 +458,12 @@ QTabBar::tab:disabled {
           <rect>
            <x>10</x>
            <y>30</y>
-           <width>130</width>
+           <width>261</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Выбор коэффициента:</string>
+          <string>Выбор коэффициента яркости (от -150 до 150):</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_brightness">
@@ -401,18 +496,419 @@ QTabBar::tab:disabled {
          </property>
         </widget>
        </widget>
-       <widget class="QGroupBox" name="groupBox_3">
+       <widget class="QGroupBox" name="groupBox_contrast">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>570</y>
-          <width>120</width>
-          <height>80</height>
+          <x>0</x>
+          <y>200</y>
+          <width>340</width>
+          <height>190</height>
          </rect>
         </property>
-        <property name="title">
-         <string>GroupBox</string>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
+        </property>
+        <property name="title">
+         <string>Изменение контраста</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QPushButton" name="pushButton_contrast">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>120</y>
+           <width>200</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Применить изменение контраста</string>
+         </property>
+         <property name="text">
+          <string>Применить</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider_contrast">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>320</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Ползунок для выбора коэффициента контраста</string>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_contrast">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>241</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Выбор коэффициента контраста (от 0 до 2):</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2_contrast">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>150</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Выбранный коэффициент:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_contrast">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>90</y>
+           <width>113</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_gamma">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>200</y>
+          <width>340</width>
+          <height>190</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
+        </property>
+        <property name="title">
+         <string>Гамма-коррекция</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QPushButton" name="pushButton_gamma">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>120</y>
+           <width>200</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Применить гамма-коррекцию</string>
+         </property>
+         <property name="text">
+          <string>Применить</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider_gamma">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>320</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Ползунок для выбора коэффициента гамма-коррекции</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>500</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_gamma">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>311</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Выбор коэффициента гамма-коррекции (от 0.1 до 5.0):</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2_gamma">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>150</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Выбранный коэффициент:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_gamma">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>90</y>
+           <width>113</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_full">
+        <property name="geometry">
+         <rect>
+          <x>700</x>
+          <y>200</y>
+          <width>340</width>
+          <height>190</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
+        </property>
+        <property name="title">
+         <string>Гамма-коррекция</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <widget class="QPushButton" name="pushButton_gamma_2">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>120</y>
+           <width>200</width>
+           <height>60</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>-1</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="statusTip">
+          <string>Применить гамма-коррекцию</string>
+         </property>
+         <property name="text">
+          <string>Применить</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider_gamma_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>320</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="statusTip">
+          <string>Ползунок для выбора коэффициента гамма-коррекции</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>500</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_gamma_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>311</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Выбор коэффициента гамма-коррекции (от 0.1 до 5.0):</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2_gamma_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>150</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Выбранный коэффициент:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_gamma_2">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>90</y>
+           <width>113</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="gif">
@@ -420,7 +916,7 @@ QTabBar::tab:disabled {
         <string>Guided Image Filter</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="web">
+      <widget class="QWidget" name="cam">
        <attribute name="title">
         <string>Веб-камера</string>
        </attribute>
@@ -434,7 +930,7 @@ QTabBar::tab:disabled {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1129</width>
+     <width>1077</width>
      <height>22</height>
     </rect>
    </property>
