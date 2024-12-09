@@ -849,10 +849,10 @@ QPushButton:disabled {
        <widget class="QGraphicsView" name="graphicsView">
         <property name="geometry">
          <rect>
-          <x>240</x>
-          <y>460</y>
-          <width>256</width>
-          <height>192</height>
+          <x>680</x>
+          <y>400</y>
+          <width>351</width>
+          <height>351</height>
          </rect>
         </property>
        </widget>
