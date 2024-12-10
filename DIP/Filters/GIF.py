@@ -1,47 +1,61 @@
 import numpy as np
-import cv2
+import scipy.ndimage as ndimage
+import cv2 as cv
 
-def guided_filter_with_weights(I, P, r, eps):
+def guided_filter(I, p, r, epsilon):
     """
-    Guided Filter с использованием весовой функции.
-    :param I: направляющее изображение (градации серого, float32)
-    :param P: обрабатываемое изображение (градации серого, float32)
-    :param r: радиус окна
-    :param eps: регуляризующий параметр
-    :return: отфильтрованное изображение
+    Реализует Guided Image Filter.
+
+    :param I: Направляющее изображение (I)
+    :param p: Входное изображение (p)
+    :param r: Радиус окна
+    :param epsilon: Параметр регуляризации
+    :return: Отфильтрованное изображение
     """
-    # Размер окна
-    kernel_size = 2 * r + 1
-    window_area = kernel_size ** 2
 
-    # Локальное среднее
-    mean_I = cv2.boxFilter(I, -1, (kernel_size, kernel_size))
-    mean_P = cv2.boxFilter(P, -1, (kernel_size, kernel_size))
+    # Размер изображения
+    height, width = I.shape
+    print("Height:", height)
+    print("Width:", width)
 
-    # Локальная дисперсия
-    mean_I2 = cv2.boxFilter(I * I, -1, (kernel_size, kernel_size))
-    var_I = mean_I2 - mean_I ** 2
+    # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+    mean_I = ndimage.uniform_filter(I, size=2 * r + 1)
+    mean_p = ndimage.uniform_filter(p, size=2 * r + 1)
 
-    # Ковариация
-    mean_IP = cv2.boxFilter(I * P, -1, (kernel_size, kernel_size))
-    cov_IP = mean_IP - mean_I * mean_P
+    print(mean_I.shape)
+    print(mean_I)
 
-    # Весовая функция
-    weights = (1 + (I - mean_I) * (P - mean_P) / (var_I + eps)) / window_area
+    # 2. Вычисляем дисперсию для изображения p
+    var_I = ndimage.uniform_filter(I ** 2, size=2 * r + 1) - mean_I ** 2
+    # var_p = ndimage.uniform_filter(p ** 2, size=2 * r + 1) - mean_p ** 2
+    cov_Ip = ndimage.uniform_filter(I * p, size=2 * r + 1) - mean_I * mean_p
 
-    # Фильтрованное изображение
-    q = cv2.boxFilter(weights * P, -1, (kernel_size, kernel_size))
+    # 3. Вычисляем коэффициент a (линейный коэффициент)
+    a = cov_Ip / (var_I + epsilon)
+
+    # 4. Вычисляем смещение b
+    b = mean_p - a * mean_I
+
+    # 5. Вычисляем финальное отфильтрованное изображение
+    mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+    mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+
+    q = mean_a * I + mean_b
+
     return q
 
-# Пример использования
-image = cv2.imread(r"C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png", cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255.0
-filtered = guided_filter_with_weights(image, image, r=8, eps=0.02) * 255
+I = cv.imread(r'D:\pythonProject\DIP\Images_DIP\tmb_120917_5876.jpg', cv.IMREAD_GRAYSCALE).astype(np.float32) / 255
 
-# Нормализуем результат, чтобы вывести его
-filtered = (filtered * 255).astype(np.uint8)
+# Параметры
+r = 4  # Радиус окна
+epsilon = 0.04  # Параметр регуляризации
 
-cv2.imshow("Original", image)
-cv2.imshow("Filtered", filtered)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Применяем фильтр
+output = (guided_filter(I, I, r, epsilon) * 255).astype(np.uint8)
+output_1 = output.astype(np.uint8)
+
+cv.imshow("Input image", I)
+cv.imshow("Filtered image", output)
+cv.waitKey(0)
+cv.destroyAllWindows()
 
