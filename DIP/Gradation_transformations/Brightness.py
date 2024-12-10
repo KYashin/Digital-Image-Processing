@@ -6,11 +6,8 @@ import numpy as np
 def brightness(path_to_image, coefficient):
     # Считываем изображение в градациях серого
     img = cv2.imread(path_to_image, cv2.IMREAD_GRAYSCALE)
-    img_1 = img.copy()
 
-    print(f"Original shape: {img_1.shape}")
-
-    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.int32)
+    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
     for y in range(img_1.shape[0]):
         for x in range(img_1.shape[1]):
             img_1[y, x] = img[y, x] + coefficient

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def contrast(path_to_image, coefficient):
     img = cv.imread(path_to_image, cv.IMREAD_GRAYSCALE)
 
-    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.int32)
+    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
     for y in range(img.shape[0]):
         for x in range(img.shape[1]):
             img_1[y, x] = np.clip(coefficient * img[y, x], 0, 255)
@@ -62,27 +62,4 @@ def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     plt.tight_layout()
     plt.show()
 
-contrast(r'C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png', 1.5)
-
-
-
-# cap = cv.VideoCapture(0)
-#
-# while True:
-#
-#     success, frame = cap.read()
-#
-#     frame_1 = frame.astype(np.int32)
-#
-#     frame_1 = np.clip(0.5 * frame_1, 0, 255)
-#
-#     frame_1 = frame_1.astype(np.uint8)
-#
-#     cv.imshow("Original Frame", frame)
-#     cv.imshow("Contrast Frane", frame_1)
-#     key = cv.waitKey(1)
-#     if key == 27:
-#         break
-#
-# cap.release()
-# cv.destroyAllWindows()
+contrast(r'D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png', 1.5)

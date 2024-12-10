@@ -7,9 +7,26 @@ def negative(path_to_image):
 
     img_1 = 255 - img
 
-    show_histograms_and_images(img, img_1)
+    orig_hist = calculate_histogram(img)
+    changed_hist = calculate_histogram(img_1)
 
-def show_histograms_and_images(orig_img, changed_img):
+    show_histograms_and_images(img, img_1, orig_hist, changed_hist)
+
+def calculate_histogram(img):
+    # histogram = [0] * 256                # действие вложенного цикла аналогично тому, что делает функция np.bincount
+    # for y in range(img.shape[0]):
+    #     for x in range(img.shape[1]):
+    #         intensity = img[y, x]
+    #         histogram[intensity] += 1
+
+    # Подсчет количества пикселей каждого значения интенсивности
+    histogram = np.bincount(img.ravel(), minlength=256)
+    # Нормализация гистограммы
+    normalized_hist = histogram / img.size
+    return normalized_hist
+
+
+def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     fig, axes = plt.subplots(2, 2, figsize=(10, 8))  # Увеличиваем размер графиков
 
     axes[0, 0].imshow(orig_img, cmap='gray')
@@ -21,16 +38,14 @@ def show_histograms_and_images(orig_img, changed_img):
     axes[0, 1].axis('off')  # Убираем оси
 
     # Гистограмма для оригинального изображения
-    # axes[1, 0].bar(range(256), [intensity / max(orig_hist) for intensity in orig_hist], color='yellow', width=1.0, edgecolor="black")
-    axes[1, 0].hist(orig_img.ravel(), bins=256, range=(0, 255), color='red', alpha=0.75)
+    axes[1, 0].bar(range(256), orig_hist, color='yellow', width=1.0, edgecolor="black")
     axes[1, 0].set_title('Histogram of Original Image', fontsize=14)
     axes[1, 0].set_xlabel('Pixel Intensity', fontsize=12)
     axes[1, 0].set_ylabel('Frequency', fontsize=12)
     axes[1, 0].grid(True, linestyle='--', alpha=0.6)  # Добавляем сетку
 
     # Гистограмма для измененного изображения
-    # axes[1, 1].bar(range(256), [intensity / max(changed_hist) for intensity in changed_hist], color='red', width=1.0, edgecolor="black")
-    axes[1, 1].hist(changed_img.ravel(), bins=256, range=(0, 255), color='red', alpha=0.75)
+    axes[1, 1].bar(range(256), changed_hist, color='red', width=1.0, edgecolor="black")
     axes[1, 1].set_title('Histogram of Changed Image', fontsize=14)
     axes[1, 1].set_xlabel('Pixel Intensity', fontsize=12)
     axes[1, 1].set_ylabel('Frequency', fontsize=12)
@@ -40,4 +55,4 @@ def show_histograms_and_images(orig_img, changed_img):
     plt.tight_layout()
     plt.show()
 
-negative(r"D:\pythonProject\DIP\Project\Images\1e72bfd5-95f4-494f-a22f-a02b91a3c2fd.jpg")
+negative(r"D:\pythonProject\DIP\Images_DIP\1e72bfd5-95f4-494f-a22f-a02b91a3c2fd.jpg")
