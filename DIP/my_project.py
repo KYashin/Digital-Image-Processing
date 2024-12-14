@@ -1386,7 +1386,7 @@ class MainWindow(QMainWindow):
 
                     self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
 
-    # def reset(self):
+    # def reset(self1):
 
 
 if __name__ == "__main__":
