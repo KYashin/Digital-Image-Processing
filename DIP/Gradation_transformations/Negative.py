@@ -7,8 +7,8 @@ def negative(path_to_image):
 
     img_1 = 255 - img
 
-    orig_hist = calculate_histogram(img)
-    changed_hist = calculate_histogram(img_1)
+    orig_hist = calculate_histogram(img) / (img.shape[0] * img.shape[1])
+    changed_hist = calculate_histogram(img_1) / (img_1.shape[0] * img_1.shape[1])
 
     show_histograms_and_images(img, img_1, orig_hist, changed_hist)
 

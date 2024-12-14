@@ -6,21 +6,16 @@ def full(path_to_image):
 
     img = cv.imread(path_to_image, cv.IMREAD_GRAYSCALE)
 
-    img_1 = np.zeros_like(img).astype(np.float32)
-
-    for y in range(img.shape[0]):
-        for x in range(img.shape[1]):
-            img_1[y, x] = 255 * ((img[y, x] - np.min(img)) / (np.max(img) - np.min(img)))
-
+    # Приведение к полному диапазону [0, 255] с использованием NumPy
+    img_min = np.min(img)
+    img_max = np.max(img)
+    img_1 = 255 * ((img - img_min) / (img_max - img_min))
     img_1 = img_1.astype(np.uint8)
 
     orig_hist = calculate_histogram(img)
     changed_hist = calculate_histogram(img_1)
 
-    print(np.max(img_1))
-
     show_histograms_and_images(img, img_1, orig_hist, changed_hist)
-
 
 def calculate_histogram(img):
 
@@ -61,5 +56,5 @@ def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     plt.show()
 
 
-full(r'C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png')
+full(r'D:\pythonProject\DIP\Images_DIP\cf50445f-7887-44a2-ab11-8407f5be1ccc.jpg')
 
