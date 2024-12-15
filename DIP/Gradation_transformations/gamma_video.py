@@ -11,7 +11,6 @@ def gamma_correction(gamma):
 
         frame_1 = np.clip(255 * (frame / 255) ** gamma, 0, 255).astype(np.uint8)
 
-
         cv.imshow("Frame", frame)
         cv.imshow("Frame_1", frame_1)
         key = cv.waitKey(1)
