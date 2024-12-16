@@ -347,6 +347,7 @@ class Ui_MainWindow(object):
         self.horizontalSlider_contrast = QtWidgets.QSlider(parent=self.groupBox_contrast)
         self.horizontalSlider_contrast.setGeometry(QtCore.QRect(10, 60, 320, 22))
         self.horizontalSlider_contrast.setMinimum(1)
+        self.horizontalSlider_contrast.setValue(10)
         self.horizontalSlider_contrast.setMaximum(50)
         self.horizontalSlider_contrast.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.horizontalSlider_contrast.setObjectName("horizontalSlider_contrast")
@@ -367,7 +368,7 @@ class Ui_MainWindow(object):
         self.lineEdit_contrast = QtWidgets.QLineEdit(parent=self.groupBox_contrast)
         self.lineEdit_contrast.setGeometry(QtCore.QRect(170, 90, 113, 22))
         self.lineEdit_contrast.setObjectName("lineEdit_contrast")
-        self.lineEdit_contrast.setText("0.1")
+        self.lineEdit_contrast.setText("1.0")
 
         self.groupBox_gamma = QtWidgets.QGroupBox(parent=self.gf)
         self.groupBox_gamma.setGeometry(QtCore.QRect(350, 200, 340, 190))
@@ -418,6 +419,7 @@ class Ui_MainWindow(object):
         self.horizontalSlider_gamma = QtWidgets.QSlider(parent=self.groupBox_gamma)
         self.horizontalSlider_gamma.setGeometry(QtCore.QRect(10, 60, 320, 22))
         self.horizontalSlider_gamma.setMinimum(1)
+        self.horizontalSlider_gamma.setValue(10)
         self.horizontalSlider_gamma.setMaximum(50)
         self.horizontalSlider_gamma.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.horizontalSlider_gamma.setObjectName("horizontalSlider_gamma")
@@ -438,7 +440,7 @@ class Ui_MainWindow(object):
         self.lineEdit_gamma = QtWidgets.QLineEdit(parent=self.groupBox_gamma)
         self.lineEdit_gamma.setGeometry(QtCore.QRect(170, 90, 113, 22))
         self.lineEdit_gamma.setObjectName("lineEdit_gamma")
-        self.lineEdit_gamma.setText("0.1")
+        self.lineEdit_gamma.setText("1.0")
 
         self.groupBox_full = QtWidgets.QGroupBox(parent=self.gf)
         self.groupBox_full.setGeometry(QtCore.QRect(700, 200, 340, 190))
@@ -751,7 +753,9 @@ class Ui_MainWindow(object):
 
         self.horizontalSlider_contrast_video = QtWidgets.QSlider(parent=self.groupBox_contrast_video)
         self.horizontalSlider_contrast_video.setGeometry(QtCore.QRect(10, 80, 320, 22))
-        self.horizontalSlider_contrast_video.setMaximum(200)
+        self.horizontalSlider_contrast_video.setMinimum(1)
+        self.horizontalSlider_contrast_video.setValue(10)
+        self.horizontalSlider_contrast_video.setMaximum(50)
         self.horizontalSlider_contrast_video.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.horizontalSlider_contrast_video.setObjectName("horizontalSlider_contrast_video")
 
@@ -873,6 +877,7 @@ class Ui_MainWindow(object):
         self.horizontalSlider_gamma_video = QtWidgets.QSlider(parent=self.groupBox_gamma_video)
         self.horizontalSlider_gamma_video.setGeometry(QtCore.QRect(10, 80, 320, 22))
         self.horizontalSlider_gamma_video.setMinimum(1)
+        self.horizontalSlider_gamma_video.setValue(10)
         self.horizontalSlider_gamma_video.setMaximum(50)
         self.horizontalSlider_gamma_video.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.horizontalSlider_gamma_video.setObjectName("horizontalSlider_gamma_video")
@@ -893,7 +898,7 @@ class Ui_MainWindow(object):
         self.lineEdit_gamma_video = QtWidgets.QLineEdit(parent=self.groupBox_gamma_video)
         self.lineEdit_gamma_video.setGeometry(QtCore.QRect(170, 140, 113, 22))
         self.lineEdit_gamma_video.setObjectName("lineEdit_gamma_video")
-        self.lineEdit_gamma_video.setText("0.1")
+        self.lineEdit_gamma_video.setText("1.0")
 
         self.gridLayout_video.addWidget(self.groupBox_gamma_video, 2, 0, 1, 1)
         self.tabWidget.addTab(self.cam, "")
@@ -1063,6 +1068,25 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit_noise.setDisabled(True)
             self.ui.checkBox.setDisabled(True)
 
+            # Пытаемся открыть устройство камеры
+            self.cap = cv2.VideoCapture(0)
+
+            if not self.cap.isOpened():
+                    self.ui.horizontalSlider_contrast_video.setDisabled(True)
+                    self.ui.horizontalSlider_brightness_video.setDisabled(True)
+                    self.ui.horizontalSlider_gamma_video.setDisabled(True)
+                    self.ui.lineEdit_contrast_video.setDisabled(True)
+                    self.ui.lineEdit_gamma_video.setDisabled(True)
+                    self.ui.lineEdit_brightness_video.setDisabled(True)
+            else:
+                    self.ui.horizontalSlider_contrast_video.setEnabled(True)
+                    self.ui.horizontalSlider_brightness_video.setEnabled(True)
+                    self.ui.horizontalSlider_gamma_video.setEnabled(True)
+                    self.ui.lineEdit_contrast_video.setEnabled(True)
+                    self.ui.lineEdit_gamma_video.setEnabled(True)
+                    self.ui.lineEdit_brightness_video.setEnabled(True)
+
+
             # Подключение действия: открытие изображения
             self.ui.actionOpen_image.triggered.connect(self.open_image)
             self.ui.actionSave_image.triggered.connect(self.save_image)
@@ -1079,6 +1103,7 @@ class MainWindow(QMainWindow):
             self.ui.button_negative_video.clicked.connect(self.negative_video)
             self.ui.pushButton_contrast_video.clicked.connect(self.contrast_video)
             self.ui.pushButton_gamma_video.clicked.connect(self.gamma_video)
+            self.ui.pushButton_matrix.clicked.connect(self.gif_matrix)
 
             self.ui.horizontalSlider_brightness.valueChanged.connect(self.update_brightness_line_edit)
             self.ui.lineEdit_brightness.editingFinished.connect(self.update_brightness_slider)
@@ -1122,6 +1147,10 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit_contrast.setEnabled(True)
             self.ui.horizontalSlider_gamma.setEnabled(True)
             self.ui.lineEdit_gamma.setEnabled(True)
+            self.ui.lineEdit_r.setEnabled(True)
+            self.ui.lineEdit_epsilon.setEnabled(True)
+            self.ui.lineEdit_noise.setEnabled(True)
+            self.ui.checkBox.setEnabled(True)
 
     def load_image(self, file_path):
             # Загрузить изображение в QPixmap
@@ -1179,30 +1208,7 @@ class MainWindow(QMainWindow):
                 result = msg.exec()
 
                 if result == QMessageBox.StandardButton.Open:
-                        # Открыть диалог выбора файла
-                        file_path, _ = QFileDialog.getOpenFileName(
-                                self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                        )
-
-                        if file_path:
-                                # Загрузить изображение
-                                self.file_path = file_path
-                                self.load_image(file_path)
-
-                                # Разблокируем слайдер и поле ввода
-                                self.ui.horizontalSlider_brightness.setEnabled(True)
-                                self.ui.lineEdit_brightness.setEnabled(True)
-                                self.ui.horizontalSlider_binarization.setEnabled(True)
-                                self.ui.lineEdit_binarization.setEnabled(True)
-                                self.ui.horizontalSlider_contrast.setEnabled(True)
-                                self.ui.lineEdit_contrast.setEnabled(True)
-                                self.ui.horizontalSlider_gamma.setEnabled(True)
-                                self.ui.lineEdit_gamma.setEnabled(True)
-                                self.ui.lineEdit_r.setEnabled(True)
-                                self.ui.lineEdit_epsilon.setEnabled(True)
-                                self.ui.lineEdit_noise.setEnabled(True)
-                                self.ui.checkBox.setEnabled(True)
+                        self.open_image()
         else:
                 image = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
 
@@ -1228,31 +1234,7 @@ class MainWindow(QMainWindow):
                     result = msg.exec()
 
                     if result == QMessageBox.StandardButton.Open:
-                            # Открыть диалог выбора файла
-                            file_path, _ = QFileDialog.getOpenFileName(
-                                    self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                    "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                            )
-
-                            if file_path:
-                                    # Загрузить изображение
-                                    self.file_path = file_path
-                                    self.load_image(file_path)
-
-                                    # Разблокируем слайдер и поле ввода
-                                    self.ui.horizontalSlider_brightness.setEnabled(True)
-                                    self.ui.lineEdit_brightness.setEnabled(True)
-                                    self.ui.horizontalSlider_binarization.setEnabled(True)
-                                    self.ui.lineEdit_binarization.setEnabled(True)
-                                    self.ui.horizontalSlider_contrast.setEnabled(True)
-                                    self.ui.lineEdit_contrast.setEnabled(True)
-                                    self.ui.horizontalSlider_gamma.setEnabled(True)
-                                    self.ui.lineEdit_gamma.setEnabled(True)
-                                    self.ui.lineEdit_r.setEnabled(True)
-                                    self.ui.lineEdit_epsilon.setEnabled(True)
-                                    self.ui.lineEdit_noise.setEnabled(True)
-                                    self.ui.checkBox.setEnabled(True)
-
+                            self.open_image()
             else:
                     image = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
                     lst = np.zeros(256)
@@ -1289,30 +1271,7 @@ class MainWindow(QMainWindow):
                 result = msg.exec()
 
                 if result == QMessageBox.StandardButton.Open:
-                        # Открыть диалог выбора файла
-                        file_path, _ = QFileDialog.getOpenFileName(
-                                self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                        )
-
-                        if file_path:
-                                # Загрузить изображение
-                                self.file_path = file_path
-                                self.load_image(file_path)
-
-                                # Разблокируем слайдер и поле ввода
-                                self.ui.horizontalSlider_brightness.setEnabled(True)
-                                self.ui.lineEdit_brightness.setEnabled(True)
-                                self.ui.horizontalSlider_binarization.setEnabled(True)
-                                self.ui.lineEdit_binarization.setEnabled(True)
-                                self.ui.horizontalSlider_contrast.setEnabled(True)
-                                self.ui.lineEdit_contrast.setEnabled(True)
-                                self.ui.horizontalSlider_gamma.setEnabled(True)
-                                self.ui.lineEdit_gamma.setEnabled(True)
-                                self.ui.lineEdit_r.setEnabled(True)
-                                self.ui.lineEdit_epsilon.setEnabled(True)
-                                self.ui.lineEdit_noise.setEnabled(True)
-                                self.ui.checkBox.setEnabled(True)
+                        self.open_image()
         else:
                 img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
 
@@ -1420,30 +1379,7 @@ class MainWindow(QMainWindow):
                     result = msg.exec()
 
                     if result == QMessageBox.StandardButton.Open:
-                            # Открыть диалог выбора файла
-                            file_path, _ = QFileDialog.getOpenFileName(
-                                    self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                    "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                            )
-
-                            if file_path:
-                                    # Загрузить изображение
-                                    self.file_path = file_path
-                                    self.load_image(file_path)
-
-                                    # Разблокируем слайдер и поле ввода
-                                    self.ui.horizontalSlider_brightness.setEnabled(True)
-                                    self.ui.lineEdit_brightness.setEnabled(True)
-                                    self.ui.horizontalSlider_binarization.setEnabled(True)
-                                    self.ui.lineEdit_binarization.setEnabled(True)
-                                    self.ui.horizontalSlider_contrast.setEnabled(True)
-                                    self.ui.lineEdit_contrast.setEnabled(True)
-                                    self.ui.horizontalSlider_gamma.setEnabled(True)
-                                    self.ui.lineEdit_gamma.setEnabled(True)
-                                    self.ui.lineEdit_r.setEnabled(True)
-                                    self.ui.lineEdit_epsilon.setEnabled(True)
-                                    self.ui.lineEdit_noise.setEnabled(True)
-                                    self.ui.checkBox.setEnabled(True)
+                            self.open_image()
             else:
                     # Считываем изображение в градациях серого
                     img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
@@ -1516,30 +1452,7 @@ class MainWindow(QMainWindow):
                     result = msg.exec()
 
                     if result == QMessageBox.StandardButton.Open:
-                            # Открыть диалог выбора файла
-                            file_path, _ = QFileDialog.getOpenFileName(
-                                    self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                    "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                            )
-
-                            if file_path:
-                                    # Загрузить изображение
-                                    self.file_path = file_path
-                                    self.load_image(file_path)
-
-                                    # Разблокируем слайдер и поле ввода
-                                    self.ui.horizontalSlider_brightness.setEnabled(True)
-                                    self.ui.lineEdit_brightness.setEnabled(True)
-                                    self.ui.horizontalSlider_binarization.setEnabled(True)
-                                    self.ui.lineEdit_binarization.setEnabled(True)
-                                    self.ui.horizontalSlider_contrast.setEnabled(True)
-                                    self.ui.lineEdit_contrast.setEnabled(True)
-                                    self.ui.horizontalSlider_gamma.setEnabled(True)
-                                    self.ui.lineEdit_gamma.setEnabled(True)
-                                    self.ui.lineEdit_r.setEnabled(True)
-                                    self.ui.lineEdit_epsilon.setEnabled(True)
-                                    self.ui.lineEdit_noise.setEnabled(True)
-                                    self.ui.checkBox.setEnabled(True)
+                            self.open_image()
             else:
                     img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
 
@@ -1628,30 +1541,7 @@ class MainWindow(QMainWindow):
                     result = msg.exec()
 
                     if result == QMessageBox.StandardButton.Open:
-                            # Открыть диалог выбора файла
-                            file_path, _ = QFileDialog.getOpenFileName(
-                                    self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                    "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                            )
-
-                            if file_path:
-                                    # Загрузить изображение
-                                    self.file_path = file_path
-                                    self.load_image(file_path)
-
-                                    # Разблокируем слайдер и поле ввода
-                                    self.ui.horizontalSlider_brightness.setEnabled(True)
-                                    self.ui.lineEdit_brightness.setEnabled(True)
-                                    self.ui.horizontalSlider_binarization.setEnabled(True)
-                                    self.ui.lineEdit_binarization.setEnabled(True)
-                                    self.ui.horizontalSlider_contrast.setEnabled(True)
-                                    self.ui.lineEdit_contrast.setEnabled(True)
-                                    self.ui.horizontalSlider_gamma.setEnabled(True)
-                                    self.ui.lineEdit_gamma.setEnabled(True)
-                                    self.ui.lineEdit_r.setEnabled(True)
-                                    self.ui.lineEdit_epsilon.setEnabled(True)
-                                    self.ui.lineEdit_noise.setEnabled(True)
-                                    self.ui.checkBox.setEnabled(True)
+                            self.open_image()
             else:
                     img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
 
@@ -1739,30 +1629,7 @@ class MainWindow(QMainWindow):
                     result = msg.exec()
 
                     if result == QMessageBox.StandardButton.Open:
-                            # Открыть диалог выбора файла
-                            file_path, _ = QFileDialog.getOpenFileName(
-                                    self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-                                    "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-                            )
-
-                            if file_path:
-                                    # Загрузить изображение
-                                    self.file_path = file_path
-                                    self.load_image(file_path)
-
-                                    # Разблокируем слайдер и поле ввода
-                                    self.ui.horizontalSlider_brightness.setEnabled(True)
-                                    self.ui.lineEdit_brightness.setEnabled(True)
-                                    self.ui.horizontalSlider_binarization.setEnabled(True)
-                                    self.ui.lineEdit_binarization.setEnabled(True)
-                                    self.ui.horizontalSlider_contrast.setEnabled(True)
-                                    self.ui.lineEdit_contrast.setEnabled(True)
-                                    self.ui.horizontalSlider_gamma.setEnabled(True)
-                                    self.ui.lineEdit_gamma.setEnabled(True)
-                                    self.ui.lineEdit_r.setEnabled(True)
-                                    self.ui.lineEdit_epsilon.setEnabled(True)
-                                    self.ui.lineEdit_noise.setEnabled(True)
-                                    self.ui.checkBox.setEnabled(True)
+                            self.open_image()
             else:
                     img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
 
@@ -1837,39 +1704,64 @@ class MainWindow(QMainWindow):
             self.ui.horizontalSlider_brightness_video.setValue(self.current_brightness_video)
 
     def brightness_video(self):
-            cap = cv2.VideoCapture(0)
-            while True:
-                    success, frame = cap.read()
-                    frame_1 = frame.astype(np.int32)
-                    frame_1 += self.current_brightness_video
-                    frame_1 = np.clip(frame_1, 0, 255)
-                    frame_1 = frame_1.astype(np.uint8)
+            # Проверяем, открыто ли устройство
+            if not self.cap.isOpened():
+                    # Выводим сообщение об ошибке через QMessageBox
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Critical)
+                    msg.setWindowTitle("Ошибка!")
+                    msg.setText("Не удалось подключиться к камере. Устройство не найдено.")
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    msg.show()
+                    return  # Завершаем функцию, так как камера недоступна
 
-                    cv2.imshow("Frame_1", frame_1)
-                    cv2.imshow("Frame", frame)
-                    key = cv2.waitKey(1)
-                    if key == 27:
-                            break
+            # Если камера доступна, продолжаем обработку
+            try:
+                    while True:
+                            success, frame = self.cap.read()
+                            frame_1 = frame.astype(np.int32)
+                            frame_1 += self.current_brightness_video
+                            frame_1 = np.clip(frame_1, 0, 255)
+                            frame_1 = frame_1.astype(np.uint8)
 
-            cap.release()
-            cv2.destroyAllWindows()
+                            cv2.imshow("Frame_1", frame_1)
+                            cv2.imshow("Frame", frame)
+                            key = cv2.waitKey(1)
+                            if key == 27:
+                                    break
+            finally:
+                    self.cap.release()
+                    cv2.destroyAllWindows()
 
     def negative_video(self):
-            cap = cv2.VideoCapture(0)
-            while True:
-                    success, frame = cap.read()
-                    frame_1 = frame.astype(np.int32)
-                    frame_1 = 255 - frame
-                    frame_1 = frame_1.astype(np.uint8)
+            # Проверяем, открыто ли устройство
+            if not self.cap.isOpened():
+                    # Выводим сообщение об ошибке через QMessageBox
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Critical)
+                    msg.setWindowTitle("Ошибка!")
+                    msg.setText("Не удалось подключиться к камере. Устройство не найдено.")
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    msg.show()
+                    return  # Завершаем функцию, так как камера недоступна
 
-                    cv2.imshow("Frame_1", frame_1)
-                    cv2.imshow("Frame", frame)
-                    key = cv2.waitKey(1)
-                    if key == 27:
-                            break
+            # Если камера доступна, продолжаем обработку
+            try:
+                    while True:
+                            success, frame = self.cap.read()
+                            frame_1 = frame.astype(np.int32)
+                            frame_1 = 255 - frame
+                            frame_1 = frame_1.astype(np.uint8)
 
-            cap.release()
-            cv2.destroyAllWindows()
+                            cv2.imshow("Frame_1", frame_1)
+                            cv2.imshow("Frame", frame)
+                            key = cv2.waitKey(1)
+                            if key == 27:
+                                    break
+            finally:
+                    self.cap.release()
+                    cv2.destroyAllWindows()
+
     def update_contrast_video_line_edit(self, value):
             # Обновляем текст в QLineEdit
             self.ui.lineEdit_contrast_video.setText(f"{value / 10:.1f}")  # Выводим с 1 знаков после запятой
@@ -1881,10 +1773,10 @@ class MainWindow(QMainWindow):
             try:
                     # Считываем значение из LineEdit
                     value = float(self.ui.lineEdit_contrast_video.text())
-                    # Проверяем, что значение в допустимом диапазоне (от 0.1 до 2.0 с шагом 0.1)
+                    # Проверяем, что значение в допустимом диапазоне (от 0.1 до 5.0 с шагом 0.1)
                     if 0.1 <= value <= 5.0:
                             if re.match(r'^\d+(\.\d{1})?$', str(value)):
-                                    # Масштабируем значение в диапазон слайдера (от 1 до 20)
+                                    # Масштабируем значение в диапазон слайдера (от 1 до 50)
                                     slider_value = int(value * 10)
                                     self.ui.horizontalSlider_contrast_video.setValue(slider_value)
                                     self.current_contrast_video = value  # Сохраняем значение с плавающей точкой
@@ -1928,21 +1820,35 @@ class MainWindow(QMainWindow):
                     self.ui.horizontalSlider_contrast_video.setValue(slider_value)
 
     def contrast_video(self):
-            cap = cv2.VideoCapture(0)
+            # Проверяем, открыто ли устройство
+            if not self.cap.isOpened():
+                    # Выводим сообщение об ошибке через QMessageBox
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Critical)
+                    msg.setWindowTitle("Ошибка!")
+                    msg.setText("Не удалось подключиться к камере. Устройство не найдено.")
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    msg.show()
+                    return  # Завершаем функцию, так как камера недоступна
 
-            while True:
-                    success, frame = cap.read()
-                    frame_1 = frame.astype(np.float32)
-                    frame_1 *= self.current_contrast_video
-                    frame_1 = np.clip(frame_1, 0, 255).astype(np.uint8)
+            # Если камера доступна, продолжаем обработку
+            try:
+                    while True:
+                            success, frame = self.cap.read()
+                            frame_1 = frame.astype(np.float32)
+                            frame_1 *= self.current_contrast_video
+                            frame_1 = np.clip(frame_1, 0, 255).astype(np.uint8)
 
-                    cv2.imshow("Frame", frame)
-                    cv2.imshow("Frame_1", frame_1)
-                    key = cv2.waitKey(1)
-                    if key == 27:
-                            break
-            cap.release()
-            cv2.destroyAllWindows()
+                            cv2.imshow("Frame", frame)
+                            cv2.imshow("Frame_1", frame_1)
+                            key = cv2.waitKey(1)
+                            if key == 27:
+                                    break
+
+            finally:
+                    # Гарантируем освобождение ресурса и закрытие окон
+                    self.cap.release()
+                    cv2.destroyAllWindows()
 
     def update_gamma_video_line_edit(self, value):
             # Обновляем текст в QLineEdit
@@ -2002,21 +1908,41 @@ class MainWindow(QMainWindow):
                     self.ui.horizontalSlider_gamma_video.setValue(slider_value)
 
     def gamma_video(self):
-            cap = cv2.VideoCapture(0)
+            # Проверяем, открыто ли устройство
+            if not self.cap.isOpened():
+                    # Выводим сообщение об ошибке через QMessageBox
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Critical)
+                    msg.setWindowTitle("Ошибка!")
+                    msg.setText("Не удалось подключиться к камере. Устройство не найдено.")
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    msg.show()
+                    return  # Завершаем функцию, так как камера недоступна
 
-            while True:
-                    success, frame = cap.read()
+            # Если камера доступна, продолжаем обработку
+            try:
+                    while True:
+                            success, frame = self.cap.read()
+                            if not success:
+                                    print("Ошибка чтения кадра.")
+                                    break
 
-                    frame_1 = np.clip(255 * (frame / 255) ** self.current_gamma_video, 0, 255).astype(np.uint8)
+                            # Применяем гамма-коррекцию
+                            frame_1 = np.clip(255 * (frame / 255) ** self.current_gamma_video, 0, 255).astype(np.uint8)
 
-                    cv2.imshow("Frame", frame)
-                    cv2.imshow("Frame_1", frame_1)
-                    key = cv2.waitKey(1)
-                    if key == 27:
-                            break
+                            # Отображаем оригинальный и обработанный кадры
+                            cv2.imshow("Frame", frame)
+                            cv2.imshow("Frame_1", frame_1)
 
-            cap.release()
-            cv2.destroyAllWindows()
+                            # Выход по нажатию клавиши ESC
+                            key = cv2.waitKey(1)
+                            if key == 27:
+                                    break
+            finally:
+                    # Гарантируем освобождение ресурса и закрытие окон
+                    self.cap.release()
+                    cv2.destroyAllWindows()
+
 
     def exit(self):
             msg = QMessageBox(self)
@@ -2029,59 +1955,26 @@ class MainWindow(QMainWindow):
             if result == QMessageBox.StandardButton.Yes:
                     QtWidgets.QApplication.quit()  # Закрыть приложение
 
+    def gif_matrix(self):
+            if self.file_path is None:
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
+                    msg.setWindowTitle("Предупреждение")  # Заголовок окна
+                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
+                    msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
+
+                    # Ожидание выбора кнопки и обработка результата
+                    result = msg.exec()
+
+                    if result == QMessageBox.StandardButton.Open:
+                            self.open_image()
+            # else:
+
     # def gif(self):
-    #         if self.file_path is None:
-    #                 msg = QMessageBox(self)
-    #                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
-    #                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
-    #                 msg.setText("Не было выбрано изображение!")  # Основной текст
-    #                 msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
-    #                 msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
-    #
-    #                 # Ожидание выбора кнопки и обработка результата
-    #                 result = msg.exec()
-    #
-    #                 if result == QMessageBox.StandardButton.Open:
-    #                         # Открыть диалог выбора файла
-    #                         file_path, _ = QFileDialog.getOpenFileName(
-    #                                 self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
-    #                                 "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
-    #                         )
-    #
-    #                         if file_path:
-    #                                 # Загрузить изображение
-    #                                 self.file_path = file_path
-    #                                 self.load_image(file_path)
-    #
-    #                                 # Разблокируем слайдер и поле ввода
-    #                                 self.ui.horizontalSlider_brightness.setEnabled(True)
-    #                                 self.ui.lineEdit_brightness.setEnabled(True)
-    #                                 self.ui.horizontalSlider_binarization.setEnabled(True)
-    #                                 self.ui.lineEdit_binarization.setEnabled(True)
-    #                                 self.ui.horizontalSlider_contrast.setEnabled(True)
-    #                                 self.ui.lineEdit_contrast.setEnabled(True)
-    #                                 self.ui.horizontalSlider_gamma.setEnabled(True)
-    #                                 self.ui.lineEdit_gamma.setEnabled(True)
-    #                                 self.ui.lineEdit_r.setEnabled(True)
-    #                                 self.ui.lineEdit_epsilon.setEnabled(True)
-    #                                 self.ui.lineEdit_noise.setEnabled(True)
-    #                                 self.ui.checkBox.setEnabled(True)
-    #         else:
-    #                 img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
-    #
-    #                 img_1 = np.zeros((img.shape[0], img.shape[1]))
-    #                 for y in range(img_1.shape[0]):
-    #                         for x in range(img_1.shape[1]):
-    #                                 img_1[y, x] = 255 * (img[y, x] / 255) ** self.current_gamma
-    #
-    #                 img_1 = np.clip(img_1, 0, 255).astype(np.uint8)
-    #
-    #                 self.processed_image = img_1
-    #
-    #                 orig_hist = self.calculate_histogram(img)
-    #                 changed_hist = self.calculate_histogram(img_1)
-    #
-    #                 self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
+
+
+
 
 if __name__ == "__main__":
     import sys

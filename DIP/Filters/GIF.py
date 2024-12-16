@@ -39,18 +39,20 @@ def guided_filter(I, p, r, epsilon):
 
     return q
 
-image = cv.imread(r'D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png', cv.IMREAD_GRAYSCALE)
+image = cv.imread(r"C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png", cv.IMREAD_GRAYSCALE)
 
 # Параметры
-r = 10 # Радиус окна
-epsilon = 0.00001  # Параметр регуляризации
+r = 100 # Радиус окна
+epsilon = 1e-3  # Параметр регуляризации
 
-noise = np.random.normal(0, 25, image.shape).astype(np.float32)
+noise = np.random.normal(0, 1000, image.shape).astype(np.float32)
 noisy_image = image.astype(np.float32) + noise
 noisy_image = np.clip(noisy_image, 0, 255)
 
 # Применяем фильтр
 output = (guided_filter(image.astype(np.float32), noisy_image, r, epsilon)).astype(np.uint8)
+
+# output = guided_filter(image, image, r, epsilon)
 
 # cv.imshow("Input image", image)
 # cv.imshow("Noisy image", noisy_image.astype(np.uint8))
