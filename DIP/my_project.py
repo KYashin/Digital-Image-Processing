@@ -1597,7 +1597,7 @@ class MainWindow(QMainWindow):
                             msg = QMessageBox(self)
                             msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                             msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                            msg.setText("Введено некорректное значение!         ")  # Основной текст
+                            msg.setText("Введено некорректное значение!            ")  # Основной текст
                             msg.setInformativeText("Введите число от 0.1 до 5.0 с шагом 0.1.")  # Подтекст
                             msg.setStandardButtons(QMessageBox.StandardButton.Ok)  # Кнопка
                             msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1708,7 +1708,7 @@ class MainWindow(QMainWindow):
                             msg = QMessageBox(self)
                             msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                             msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                            msg.setText("Введено некорректное значение!         ")  # Основной текст
+                            msg.setText("Введено некорректное значение!            ")  # Основной текст
                             msg.setInformativeText("Введите число от 0.1 до 5.0 с шагом 0.1.")  # Подтекст
                             msg.setStandardButtons(QMessageBox.StandardButton.Ok)  # Кнопка
                             msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -2028,6 +2028,60 @@ class MainWindow(QMainWindow):
 
             if result == QMessageBox.StandardButton.Yes:
                     QtWidgets.QApplication.quit()  # Закрыть приложение
+
+    # def gif(self):
+    #         if self.file_path is None:
+    #                 msg = QMessageBox(self)
+    #                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
+    #                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
+    #                 msg.setText("Не было выбрано изображение!")  # Основной текст
+    #                 msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
+    #                 msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
+    #
+    #                 # Ожидание выбора кнопки и обработка результата
+    #                 result = msg.exec()
+    #
+    #                 if result == QMessageBox.StandardButton.Open:
+    #                         # Открыть диалог выбора файла
+    #                         file_path, _ = QFileDialog.getOpenFileName(
+    #                                 self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP",
+    #                                 "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
+    #                         )
+    #
+    #                         if file_path:
+    #                                 # Загрузить изображение
+    #                                 self.file_path = file_path
+    #                                 self.load_image(file_path)
+    #
+    #                                 # Разблокируем слайдер и поле ввода
+    #                                 self.ui.horizontalSlider_brightness.setEnabled(True)
+    #                                 self.ui.lineEdit_brightness.setEnabled(True)
+    #                                 self.ui.horizontalSlider_binarization.setEnabled(True)
+    #                                 self.ui.lineEdit_binarization.setEnabled(True)
+    #                                 self.ui.horizontalSlider_contrast.setEnabled(True)
+    #                                 self.ui.lineEdit_contrast.setEnabled(True)
+    #                                 self.ui.horizontalSlider_gamma.setEnabled(True)
+    #                                 self.ui.lineEdit_gamma.setEnabled(True)
+    #                                 self.ui.lineEdit_r.setEnabled(True)
+    #                                 self.ui.lineEdit_epsilon.setEnabled(True)
+    #                                 self.ui.lineEdit_noise.setEnabled(True)
+    #                                 self.ui.checkBox.setEnabled(True)
+    #         else:
+    #                 img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
+    #
+    #                 img_1 = np.zeros((img.shape[0], img.shape[1]))
+    #                 for y in range(img_1.shape[0]):
+    #                         for x in range(img_1.shape[1]):
+    #                                 img_1[y, x] = 255 * (img[y, x] / 255) ** self.current_gamma
+    #
+    #                 img_1 = np.clip(img_1, 0, 255).astype(np.uint8)
+    #
+    #                 self.processed_image = img_1
+    #
+    #                 orig_hist = self.calculate_histogram(img)
+    #                 changed_hist = self.calculate_histogram(img_1)
+    #
+    #                 self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
 
 if __name__ == "__main__":
     import sys

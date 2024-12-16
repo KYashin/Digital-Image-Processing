@@ -23,7 +23,6 @@ def guided_filter(I, p, r, epsilon):
 
     # 2. Вычисляем дисперсию для изображения p
     var_I = ndimage.uniform_filter(I ** 2, size=2 * r + 1) - mean_I ** 2
-    # var_p = ndimage.uniform_filter(p ** 2, size=2 * r + 1) - mean_p ** 2
     cov_Ip = ndimage.uniform_filter(I * p, size=2 * r + 1) - mean_I * mean_p
 
     # 3. Вычисляем коэффициент a (линейный коэффициент)
@@ -40,24 +39,24 @@ def guided_filter(I, p, r, epsilon):
 
     return q
 
-image = cv.imread(r'D:\pythonProject\DIP\Images_DIP\1e72bfd5-95f4-494f-a22f-a02b91a3c2fd.jpg', cv.IMREAD_GRAYSCALE)
+image = cv.imread(r'D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png', cv.IMREAD_GRAYSCALE)
 
 # Параметры
 r = 10 # Радиус окна
 epsilon = 0.00001  # Параметр регуляризации
 
-noise = np.random.normal(0, 100, image.shape).astype(np.float32)
+noise = np.random.normal(0, 25, image.shape).astype(np.float32)
 noisy_image = image.astype(np.float32) + noise
 noisy_image = np.clip(noisy_image, 0, 255)
 
 # Применяем фильтр
 output = (guided_filter(image.astype(np.float32), noisy_image, r, epsilon)).astype(np.uint8)
 
-cv.imshow("Input image", image)
-cv.imshow("Noisy image", noisy_image.astype(np.uint8))
-cv.imshow("Filtered image", output)
-cv.waitKey(0)
-cv.destroyAllWindows()
+# cv.imshow("Input image", image)
+# cv.imshow("Noisy image", noisy_image.astype(np.uint8))
+# cv.imshow("Filtered image", output)
+# cv.waitKey(0)
+# cv.destroyAllWindows()
 
 # Визуализация
 plt.figure(figsize=(15, 5))

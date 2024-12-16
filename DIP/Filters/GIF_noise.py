@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Загружаем изображение
-image = cv2.imread(r"C:\Users\user\PycharmProjects\Digital-Image-Processing\DIP\Images_DIP\Lenna_test_image.png", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r"D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png", cv2.IMREAD_GRAYSCALE)
 
 # Добавляем шум
-noise = np.random.normal(0, 25, image.shape).astype(np.float32)
+noise = np.random.normal(0, 150, image.shape).astype(np.float32)
 noisy_image = cv2.add(image.astype(np.float32), noise)
 
 # Применяем Guided Filter
