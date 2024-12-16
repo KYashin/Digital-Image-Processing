@@ -8,11 +8,12 @@
 import re
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QFileDialog, QLabel, QGraphicsScene, QGraphicsView, QMessageBox
-from PyQt6.QtGui import QPixmap, QPainter, QImage
-from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap, QPainter, QImage, QIntValidator, QDoubleValidator
+from PyQt6.QtCore import Qt, QLocale
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import scipy.ndimage as ndimage
 
 
 class Ui_MainWindow(object):
@@ -507,8 +508,10 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setObjectName("label")
         self.tabWidget.addTab(self.gf, "")
+
         self.gif = QtWidgets.QWidget()
         self.gif.setObjectName("gif")
+
         self.pushButton_matrix = QtWidgets.QPushButton(parent=self.gif)
         self.pushButton_matrix.setGeometry(QtCore.QRect(120, 500, 200, 60))
         self.pushButton_matrix.setStyleSheet("QPushButton {\n"
@@ -541,6 +544,7 @@ class Ui_MainWindow(object):
 "    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */\n"
 "}")
         self.pushButton_matrix.setObjectName("pushButton_matrix")
+
         self.pushButton_gif = QtWidgets.QPushButton(parent=self.gif)
         self.pushButton_gif.setGeometry(QtCore.QRect(120, 370, 200, 60))
         self.pushButton_gif.setStyleSheet("QPushButton {\n"
@@ -573,36 +577,58 @@ class Ui_MainWindow(object):
 "    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */\n"
 "}")
         self.pushButton_gif.setObjectName("pushButton_gif")
+
         self.lineEdit_epsilon = QtWidgets.QLineEdit(parent=self.gif)
         self.lineEdit_epsilon.setGeometry(QtCore.QRect(170, 220, 113, 22))
         self.lineEdit_epsilon.setObjectName("lineEdit_epsilon")
+        self.lineEdit_epsilon.setText("0.1")
+
+        validator_double = QDoubleValidator(0.0, 5.0, 10)
+        validator_double.setNotation(QDoubleValidator.Notation.StandardNotation)
+        validator_double.setLocale(QLocale("en_US"))  # Точка в качестве разделителя
+        self.lineEdit_epsilon.setValidator(validator_double)
+
         self.lineEdit_r = QtWidgets.QLineEdit(parent=self.gif)
         self.lineEdit_r.setGeometry(QtCore.QRect(170, 170, 111, 22))
         self.lineEdit_r.setObjectName("lineEdit_r")
+        self.lineEdit_r.setText("1")
+
+        validator = QIntValidator(1, 10000)
+        self.lineEdit_r.setValidator(validator)
+
         self.label_2 = QtWidgets.QLabel(parent=self.gif)
         self.label_2.setGeometry(QtCore.QRect(150, 170, 31, 16))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
+
         self.label_3 = QtWidgets.QLabel(parent=self.gif)
         self.label_3.setGeometry(QtCore.QRect(110, 220, 61, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
+
         self.label_4 = QtWidgets.QLabel(parent=self.gif)
         self.label_4.setGeometry(QtCore.QRect(110, 470, 231, 16))
         self.label_4.setObjectName("label_4")
+
         self.label_5 = QtWidgets.QLabel(parent=self.gif)
         self.label_5.setGeometry(QtCore.QRect(80, 350, 281, 16))
         self.label_5.setObjectName("label_5")
+
         self.checkBox = QtWidgets.QCheckBox(parent=self.gif)
         self.checkBox.setGeometry(QtCore.QRect(200, 270, 51, 20))
         self.checkBox.setObjectName("checkBox")
+
         self.lineEdit_noise = QtWidgets.QLineEdit(parent=self.gif)
         self.lineEdit_noise.setGeometry(QtCore.QRect(170, 300, 113, 22))
         self.lineEdit_noise.setObjectName("lineEdit_noise")
+
+        validator_noise = QIntValidator(1, 5000)
+        self.lineEdit_noise.setValidator(validator_noise)
+
         self.label_6 = QtWidgets.QLabel(parent=self.gif)
         self.label_6.setGeometry(QtCore.QRect(90, 300, 81, 20))
         font = QtGui.QFont()
@@ -775,7 +801,7 @@ class Ui_MainWindow(object):
         self.lineEdit_contrast_video = QtWidgets.QLineEdit(parent=self.groupBox_contrast_video)
         self.lineEdit_contrast_video.setGeometry(QtCore.QRect(170, 140, 113, 22))
         self.lineEdit_contrast_video.setObjectName("lineEdit_contrast_video")
-        self.lineEdit_contrast_video.setText("0.1")
+        self.lineEdit_contrast_video.setText("1.0")
 
         self.gridLayout_video.addWidget(self.groupBox_contrast_video, 1, 1, 1, 1)
 
@@ -1048,11 +1074,11 @@ class MainWindow(QMainWindow):
             self.file_path = None
             self.current_brightness = 0
             self.current_binarization = 0
-            self.current_contrast = 0.1
-            self.current_gamma = 0.1
+            self.current_contrast = 1
+            self.current_gamma = 1
             self.current_brightness_video = 0
-            self.current_contrast_video = 0.1
-            self.current_gamma_video = 0.1
+            self.current_contrast_video = 1
+            self.current_gamma_video = 1
             self.processed_image = None
 
             self.ui.horizontalSlider_brightness.setDisabled(True)
@@ -1103,6 +1129,7 @@ class MainWindow(QMainWindow):
             self.ui.button_negative_video.clicked.connect(self.negative_video)
             self.ui.pushButton_contrast_video.clicked.connect(self.contrast_video)
             self.ui.pushButton_gamma_video.clicked.connect(self.gamma_video)
+            self.ui.pushButton_gif.clicked.connect(self.gif)
             self.ui.pushButton_matrix.clicked.connect(self.gif_matrix)
 
             self.ui.horizontalSlider_brightness.valueChanged.connect(self.update_brightness_line_edit)
@@ -1126,6 +1153,11 @@ class MainWindow(QMainWindow):
             self.ui.horizontalSlider_gamma_video.valueChanged.connect(self.update_gamma_video_line_edit)
             self.ui.lineEdit_gamma_video.editingFinished.connect(self.update_gamma_video_slider)
 
+            self.ui.lineEdit_r.textChanged.connect(self.check_input_r)
+            self.ui.lineEdit_epsilon.textChanged.connect(self.check_range_epsilon)
+            self.ui.lineEdit_noise.textChanged.connect(self.check_input_noise)
+
+            self.ui.checkBox.stateChanged.connect(self.toggle_lineEdit_noise)
 
     def open_image(self):
         # Открыть диалог выбора файла
@@ -1149,7 +1181,7 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit_gamma.setEnabled(True)
             self.ui.lineEdit_r.setEnabled(True)
             self.ui.lineEdit_epsilon.setEnabled(True)
-            self.ui.lineEdit_noise.setEnabled(True)
+            # self.ui.lineEdit_noise.setEnabled(True)
             self.ui.checkBox.setEnabled(True)
 
     def load_image(self, file_path):
@@ -1730,7 +1762,7 @@ class MainWindow(QMainWindow):
                             if key == 27:
                                     break
             finally:
-                    self.cap.release()
+                    # self.cap.release()
                     cv2.destroyAllWindows()
 
     def negative_video(self):
@@ -1759,7 +1791,7 @@ class MainWindow(QMainWindow):
                             if key == 27:
                                     break
             finally:
-                    self.cap.release()
+                    # self.cap.release()
                     cv2.destroyAllWindows()
 
     def update_contrast_video_line_edit(self, value):
@@ -1847,7 +1879,7 @@ class MainWindow(QMainWindow):
 
             finally:
                     # Гарантируем освобождение ресурса и закрытие окон
-                    self.cap.release()
+                    # self.cap.release()
                     cv2.destroyAllWindows()
 
     def update_gamma_video_line_edit(self, value):
@@ -1861,10 +1893,10 @@ class MainWindow(QMainWindow):
             try:
                     # Считываем значение из LineEdit
                     value = float(self.ui.lineEdit_gamma_video.text())
-                    # Проверяем, что значение в допустимом диапазоне (от 0.1 до 2.0 с шагом 0.1)
+                    # Проверяем, что значение в допустимом диапазоне (от 0.1 до 5.0 с шагом 0.1)
                     if 0.1 <= value <= 5.0:
                             if re.match(r'^\d+(\.\d{1})?$', str(value)):
-                                    # Масштабируем значение в диапазон слайдера (от 1 до 20)
+                                    # Масштабируем значение в диапазон слайдера (от 1 до 50)
                                     slider_value = int(value * 10)
                                     self.ui.horizontalSlider_gamma_video.setValue(slider_value)
                                     self.current_gamma_video = value  # Сохраняем значение с плавающей точкой
@@ -1940,7 +1972,7 @@ class MainWindow(QMainWindow):
                                     break
             finally:
                     # Гарантируем освобождение ресурса и закрытие окон
-                    self.cap.release()
+                    # self.cap.release()
                     cv2.destroyAllWindows()
 
 
@@ -1954,6 +1986,8 @@ class MainWindow(QMainWindow):
 
             if result == QMessageBox.StandardButton.Yes:
                     QtWidgets.QApplication.quit()  # Закрыть приложение
+
+
 
     def gif_matrix(self):
             if self.file_path is None:
@@ -1969,12 +2003,181 @@ class MainWindow(QMainWindow):
 
                     if result == QMessageBox.StandardButton.Open:
                             self.open_image()
-            # else:
+            else:
+                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255
+                    # Параметры для генерации матрицы
+                    r_values = [2, 4, 8, 12, 16]  # Радиус фильтра
+                    epsilon_values = [0.01, 0.04, 0.16, 0.36, 0.144]  # Значения epsilon
 
-    # def gif(self):
+                    # Создаем график
+                    fig, axes = plt.subplots(len(r_values), len(epsilon_values), figsize=(13, 9))
 
+                    # Заполняем матрицу изображений
+                    for i, r in enumerate(r_values):
+                            for j, epsilon in enumerate(epsilon_values):
+                                    filtered_image = (self.guided_filter(img, img, r, epsilon) * 255).astype(np.float32)
+                                    axes[i, j].imshow(filtered_image, cmap='gray')
+                                    axes[i, j].axis('off')
 
+                                    # Добавляем подпись с r и epsilon
+                                    axes[i, j].set_title(f"r={r}, ε={epsilon}", fontsize=10)
 
+                    plt.tight_layout()
+                    plt.show()
+
+    def check_input_r(self):
+            text = self.ui.lineEdit_r.text()
+            if text and (not text.isdigit() or int(text) > 10000):
+                    self.ui.lineEdit_r.backspace()
+
+    def check_input_noise(self):
+            text = self.ui.lineEdit_noise.text()
+            if text and (not text.isdigit() or int(text) > 5000):
+                    self.ui.lineEdit_r.backspace()
+
+    def check_range_epsilon(self):
+        text = self.ui.lineEdit_epsilon.text()
+        if text:
+            try:
+                value = float(text)
+                if not (0.0 <= value <= 5.0):
+                    self.ui.lineEdit_epsilon.setStyleSheet("color: red;")  # Подсветка ошибки
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
+                    msg.setWindowTitle("Предупреждение")  # Заголовок окна
+                    msg.setText("Число должно быть в пределах от 0.0 не включая до 5.0!")  # Основной текст
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
+                    msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
+                    result = msg.exec()
+                else:
+                    self.ui.lineEdit_epsilon.setStyleSheet("")  # Убираем подсветку
+            except ValueError:
+                self.ui.lineEdit_epsilon.setStyleSheet("color: red;")  # Подсветка ошибки
+
+    def toggle_lineEdit_noise(self):
+            if self.ui.checkBox.isChecked():
+                    self.ui.lineEdit_noise.setEnabled(True)
+            else:
+                    self.ui.lineEdit_noise.setEnabled(False)
+
+    def gif(self):
+            if self.file_path is None:
+                    msg = QMessageBox(self)
+                    msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
+                    msg.setWindowTitle("Предупреждение")  # Заголовок окна
+                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
+                    msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
+
+                    # Ожидание выбора кнопки и обработка результата
+                    result = msg.exec()
+
+                    if result == QMessageBox.StandardButton.Open:
+                            self.open_image()
+            else:
+                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
+
+                    r = int(self.ui.lineEdit_r.text())
+                    epsilon = float(self.ui.lineEdit_epsilon.text())
+
+                    if self.ui.checkBox.isChecked():
+                            standard_deviation = int(self.ui.lineEdit_noise.text())
+
+                            guided_image = img.copy()
+
+                            noise = np.random.normal(0, standard_deviation, img.shape).astype(np.float32)
+                            noisy_image = img.astype(np.float32) + noise
+                            noisy_image = np.clip(noisy_image, 0, 255)
+
+                            # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+                            mean_I = ndimage.uniform_filter(guided_image, size=2 * r + 1)
+                            mean_p = ndimage.uniform_filter(noisy_image, size=2 * r + 1)
+
+                            # 2. Вычисляем дисперсию для изображения p
+                            var_I = ndimage.uniform_filter(guided_image ** 2, size=2 * r + 1) - mean_I ** 2
+                            cov_Ip = ndimage.uniform_filter(guided_image * noisy_image, size=2 * r + 1) - mean_I * mean_p
+
+                            # 3. Вычисляем коэффициент a (линейный коэффициент)
+                            a = cov_Ip / (var_I + epsilon)
+
+                            # 4. Вычисляем смещение b
+                            b = mean_p - a * mean_I
+
+                            # 5. Вычисляем финальное отфильтрованное изображение
+                            mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+                            mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+
+                            q = mean_a * guided_image + mean_b
+                            output = q.astype(np.uint8)
+
+                            # Визуализация
+                            plt.figure(figsize=(15, 5))
+                            plt.subplot(1, 3, 1)
+                            plt.title("Original Image")
+                            plt.imshow(img, cmap="gray")
+                            plt.axis("off")
+
+                            plt.subplot(1, 3, 2)
+                            plt.title("Noisy Image")
+                            plt.imshow(noisy_image, cmap="gray")
+                            plt.axis("off")
+
+                            plt.subplot(1, 3, 3)
+                            plt.title("Filtered Image")
+                            plt.imshow(output, cmap="gray")
+                            plt.axis("off")
+
+                            plt.show()
+                    else:
+                            guided_image = img.copy() / 255
+                            image = img.copy() / 255
+
+                            # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+                            mean_I = ndimage.uniform_filter(guided_image, size=2 * r + 1)
+                            mean_p = ndimage.uniform_filter(image, size=2 * r + 1)
+
+                            # 2. Вычисляем дисперсию для изображения p
+                            var_I = ndimage.uniform_filter(guided_image ** 2, size=2 * r + 1) - mean_I ** 2
+                            cov_Ip = ndimage.uniform_filter(guided_image * image, size=2 * r + 1) - mean_I * mean_p
+
+                            # 3. Вычисляем коэффициент a (линейный коэффициент)
+                            a = cov_Ip / (var_I + epsilon)
+
+                            # 4. Вычисляем смещение b
+                            b = mean_p - a * mean_I
+
+                            # 5. Вычисляем финальное отфильтрованное изображение
+                            mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+                            mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+
+                            q = mean_a * guided_image + mean_b
+                            output = (q * 255).astype(np.uint8)
+
+                            # Визуализация
+                            plt.figure(figsize=(10, 5))
+                            plt.subplot(1, 2, 1)
+                            plt.title("Original Image")
+                            plt.imshow(img, cmap="gray")
+                            plt.axis("off")
+
+                            plt.subplot(1, 2, 2)
+                            plt.title("Filtered Image")
+                            plt.imshow(output, cmap="gray")
+                            plt.axis("off")
+
+                            plt.show()
+
+    def guided_filter(self, I, p, r, epsilon):
+            mean_I = ndimage.uniform_filter(I, size=2 * r + 1)
+            mean_p = ndimage.uniform_filter(p, size=2 * r + 1)
+            var_I = ndimage.uniform_filter(I ** 2, size=2 * r + 1) - mean_I ** 2
+            cov_Ip = ndimage.uniform_filter(I * p, size=2 * r + 1) - mean_I * mean_p
+            a = cov_Ip / (var_I + epsilon)
+            b = mean_p - a * mean_I
+            mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+            mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+            q = mean_a * I + mean_b
+            return q
 
 if __name__ == "__main__":
     import sys
