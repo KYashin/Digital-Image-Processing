@@ -1114,19 +1114,19 @@ QPushButton:disabled {
        <widget class="QGraphicsView" name="graphicsView_2">
         <property name="geometry">
          <rect>
-          <x>480</x>
-          <y>130</y>
-          <width>581</width>
-          <height>541</height>
+          <x>590</x>
+          <y>30</y>
+          <width>350</width>
+          <height>350</height>
          </rect>
         </property>
        </widget>
        <widget class="QLabel" name="label_7">
         <property name="geometry">
          <rect>
-          <x>640</x>
-          <y>80</y>
-          <width>271</width>
+          <x>650</x>
+          <y>0</y>
+          <width>241</width>
           <height>31</height>
          </rect>
         </property>
@@ -1136,7 +1136,92 @@ QPushButton:disabled {
          </font>
         </property>
         <property name="text">
-         <string>Загруженное изображение:</string>
+         <string>Исходное изображение:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_8">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>380</y>
+          <width>291</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Направляющее изображение:</string>
+        </property>
+       </widget>
+       <widget class="QGraphicsView" name="graphicsView_3">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>420</y>
+          <width>350</width>
+          <height>350</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_load">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>600</y>
+          <width>200</width>
+          <height>60</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #F0F0F0;         /* Светло-серый фон */
+    color: #333333;                   /* Тёмно-серый текст */
+    border: 1px solid #CCCCCC;        /* Светло-серая обводка */
+    border-radius: 6px;               /* Лёгкое закругление углов */
+    padding: 8px 14px;                /* Внутренние отступы */
+    font-size: 13px;                  /* Размер шрифта */
+    font-family: &quot;Segoe UI&quot;, sans-serif; /* Современный шрифт */
+    font-weight: 500;                 /* Умеренная толщина текста */
+    transition: all 0.3s ease;        /* Плавный переход */
+}
+
+QPushButton:hover {
+    background-color: #E6E6E6;        /* Немного темнее при наведении */
+    border-color: #B3B3B3;            /* Подчеркнутая обводка */
+}
+
+QPushButton:pressed {
+    background-color: #D9D9D9;        /* Ещё темнее при нажатии */
+    color: #000000;                   /* Чёрный текст для акцента */
+    border-color: #999999;            /* Более тёмная обводка */
+    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */
+}
+
+QPushButton:disabled {
+    background-color: #F8F8F8;        /* Почти белый фон */
+    color: #A6A6A6;                   /* Блеклый текст */
+    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */
+}</string>
+        </property>
+        <property name="text">
+         <string>Загрузить</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_9">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>570</y>
+          <width>231</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Загрузить направляющее изображение:</string>
         </property>
        </widget>
       </widget>

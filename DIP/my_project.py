@@ -9,7 +9,7 @@ import re
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QFileDialog, QLabel, QGraphicsScene, QGraphicsView, QMessageBox
 from PyQt6.QtGui import QPixmap, QPainter, QImage, QIntValidator, QDoubleValidator
-from PyQt6.QtCore import Qt, QLocale
+from PyQt6.QtCore import Qt, QLocale, QTimer
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -496,6 +496,7 @@ class Ui_MainWindow(object):
 
         # Инициализация QGraphicsScene
         self.scene = QGraphicsScene()
+        self.scene_2 = QGraphicsScene()
 
         # Устанавливаем сцену для QGraphicsView
         self.graphicsView.setScene(self.scene)
@@ -544,6 +545,41 @@ class Ui_MainWindow(object):
 "    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */\n"
 "}")
         self.pushButton_matrix.setObjectName("pushButton_matrix")
+
+        self.pushButton_load = QtWidgets.QPushButton(parent=self.gif)
+        self.pushButton_load.setGeometry(QtCore.QRect(120, 600, 200, 60))
+        self.pushButton_load.setStyleSheet("QPushButton {\n"
+                                             "    background-color: #F0F0F0;         /* Светло-серый фон */\n"
+                                             "    color: #333333;                   /* Тёмно-серый текст */\n"
+                                             "    border: 1px solid #CCCCCC;        /* Светло-серая обводка */\n"
+                                             "    border-radius: 6px;               /* Лёгкое закругление углов */\n"
+                                             "    padding: 8px 14px;                /* Внутренние отступы */\n"
+                                             "    font-size: 13px;                  /* Размер шрифта */\n"
+                                             "    font-family: \"Segoe UI\", sans-serif; /* Современный шрифт */\n"
+                                             "    font-weight: 500;                 /* Умеренная толщина текста */\n"
+                                             "    transition: all 0.3s ease;        /* Плавный переход */\n"
+                                             "}\n"
+                                             "\n"
+                                             "QPushButton:hover {\n"
+                                             "    background-color: #E6E6E6;        /* Немного темнее при наведении */\n"
+                                             "    border-color: #B3B3B3;            /* Подчеркнутая обводка */\n"
+                                             "}\n"
+                                             "\n"
+                                             "QPushButton:pressed {\n"
+                                             "    background-color: #D9D9D9;        /* Ещё темнее при нажатии */\n"
+                                             "    color: #000000;                   /* Чёрный текст для акцента */\n"
+                                             "    border-color: #999999;            /* Более тёмная обводка */\n"
+                                             "    transform: scale(0.98);           /* Лёгкое сжатие при нажатии */\n"
+                                             "}\n"
+                                             "\n"
+                                             "QPushButton:disabled {\n"
+                                             "    background-color: #F8F8F8;        /* Почти белый фон */\n"
+                                             "    color: #A6A6A6;                   /* Блеклый текст */\n"
+                                             "    border: 1px solid #E0E0E0;        /* Почти незаметная обводка */\n"
+                                             "}")
+        self.pushButton_load.setObjectName("pushButton_matrix")
+
+
 
         self.pushButton_gif = QtWidgets.QPushButton(parent=self.gif)
         self.pushButton_gif.setGeometry(QtCore.QRect(120, 370, 200, 60))
@@ -636,19 +672,41 @@ class Ui_MainWindow(object):
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
 
+        # Инициализация QGraphicsView
+        self.graphicsView_3 = QtWidgets.QGraphicsView(parent=self.gif)
+        self.graphicsView_3.setGeometry(QtCore.QRect(590, 420, 350, 350))
+        self.graphicsView_3.setObjectName("graphicsView_3")
+
+        self.graphicsView_3.setScene(self.scene_2)
+
         self.graphicsView_2 = QtWidgets.QGraphicsView(parent=self.gif)
-        self.graphicsView_2.setGeometry(QtCore.QRect(480, 130, 580, 580))
+        self.graphicsView_2.setGeometry(QtCore.QRect(590, 40, 350, 350))
         self.graphicsView_2.setObjectName("graphicsView_2")
 
         # Устанавливаем сцену для QGraphicsView
         self.graphicsView_2.setScene(self.scene)
 
         self.label_7 = QtWidgets.QLabel(parent=self.gif)
-        self.label_7.setGeometry(QtCore.QRect(640, 80, 271, 31))
+        self.label_7.setGeometry(QtCore.QRect(650, 10, 241, 31))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
+
+        self.label_8 = QtWidgets.QLabel(parent=self.gif)
+        self.label_8.setGeometry(QtCore.QRect(620, 385, 291, 31))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_8.setFont(font)
+        self.label_8.setObjectName("label_8")
+
+        self.label_9 = QtWidgets.QLabel(parent=self.gif)
+        self.label_9.setGeometry(QtCore.QRect(110, 570, 231, 16))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_9.setFont(font)
+        self.label_9.setObjectName("label_9")
+
         self.tabWidget.addTab(self.gif, "")
         self.cam = QtWidgets.QWidget()
         self.cam.setObjectName("cam")
@@ -967,6 +1025,9 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
+        self.timer = QTimer()
+        self.timer.start(1000)
+
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1010,6 +1071,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.gf), _translate("MainWindow", "Градационные преобразования"))
         self.pushButton_matrix.setStatusTip(_translate("MainWindow", "Построить матрицу изображений с заранее заданными r и epsilon"))
         self.pushButton_matrix.setText(_translate("MainWindow", "Построить"))
+        self.pushButton_load.setStatusTip(_translate("MainWindow", "Загрузить направляющее изображение"))
+        self.pushButton_load.setText(_translate("MainWindow", "Загрузить"))
         self.pushButton_gif.setStatusTip(_translate("MainWindow", "Построить отфильтрованное изображение с заддаными пользователем r и epsilon"))
         self.pushButton_gif.setText(_translate("MainWindow", "Построить"))
         self.lineEdit_epsilon.setStatusTip(_translate("MainWindow", "Коэффициент epsilon"))
@@ -1021,7 +1084,9 @@ class Ui_MainWindow(object):
         self.checkBox.setStatusTip(_translate("MainWindow", "Добавить гауссов шум к загруженному изображению"))
         self.checkBox.setText(_translate("MainWindow", "Шум"))
         self.label_6.setText(_translate("MainWindow", "СКО шума:"))
-        self.label_7.setText(_translate("MainWindow", "Загруженное изображение:"))
+        self.label_7.setText(_translate("MainWindow", "Исходное изображение:"))
+        self.label_8.setText(_translate("MainWondow", "Направляющее изображение:"))
+        self.label_9.setText(_translate("MainWondow", "Загрузить направляющее изображение:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.gif), _translate("MainWindow", "Guided Image Filter"))
         self.groupBox_brightness_video.setTitle(_translate("MainWindow", "Изменение яркости"))
         self.pushButton_brightness_video.setStatusTip(_translate("MainWindow", "Применить изменение яркости"))
@@ -1072,6 +1137,7 @@ class MainWindow(QMainWindow):
             self.ui = Ui_MainWindow()
             self.ui.setupUi(self)
             self.file_path = None
+            self.file_path_2 = None
             self.current_brightness = 0
             self.current_binarization = 0
             self.current_contrast = 1
@@ -1131,6 +1197,7 @@ class MainWindow(QMainWindow):
             self.ui.pushButton_gamma_video.clicked.connect(self.gamma_video)
             self.ui.pushButton_gif.clicked.connect(self.gif)
             self.ui.pushButton_matrix.clicked.connect(self.gif_matrix)
+            self.ui.pushButton_load.clicked.connect(self.open_guided)
 
             self.ui.horizontalSlider_brightness.valueChanged.connect(self.update_brightness_line_edit)
             self.ui.lineEdit_brightness.editingFinished.connect(self.update_brightness_slider)
@@ -1159,6 +1226,27 @@ class MainWindow(QMainWindow):
 
             self.ui.checkBox.stateChanged.connect(self.toggle_lineEdit_noise)
 
+            self.ui.timer.timeout.connect(self.check_none)
+
+    def check_none(self):
+        if self.file_path_2 and self.file_path:
+                self.ui.lineEdit_r.setEnabled(True)
+                self.ui.lineEdit_epsilon.setEnabled(True)
+                self.ui.checkBox.setEnabled(True)
+        else:
+                self.ui.lineEdit_r.setDisabled(True)
+                self.ui.lineEdit_epsilon.setDisabled(True)
+                self.ui.checkBox.setDisabled(True)
+
+    def open_guided(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+                self, "Открыть изображение", r"D:\pythonProject\DIP\Images_DIP", "Image Files (*.png *.jpg *.bmp *.jpeg *.webp);;All Files (*)"
+        )
+
+        if file_path:
+            self.file_path_2 = file_path
+            self.load_image_guided(file_path)
+
     def open_image(self):
         # Открыть диалог выбора файла
         file_path, _ = QFileDialog.getOpenFileName(
@@ -1179,10 +1267,34 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit_contrast.setEnabled(True)
             self.ui.horizontalSlider_gamma.setEnabled(True)
             self.ui.lineEdit_gamma.setEnabled(True)
-            self.ui.lineEdit_r.setEnabled(True)
-            self.ui.lineEdit_epsilon.setEnabled(True)
-            # self.ui.lineEdit_noise.setEnabled(True)
-            self.ui.checkBox.setEnabled(True)
+
+    def load_image_guided(self, file_path):
+            # Загрузить изображение в QPixmap
+            pixmap = QPixmap(file_path)
+
+            if pixmap.isNull():
+                    print("Ошибка при загрузке изображения")
+                    return
+
+            # Очистить сцену
+            self.ui.scene_2.clear()
+
+            # Преобразовать изображение в градации серого
+            grayscale_pixmap = self.convert_to_grayscale(pixmap)
+
+            # Добавить изображение
+            self.ui.scene_2.addPixmap(grayscale_pixmap)
+
+            # Установить границы сцены
+            self.ui.scene_2.setSceneRect(self.ui.scene_2.itemsBoundingRect())
+            rect = self.ui.scene_2.sceneRect()
+
+            if rect.isNull() or rect.width() <= 0 or rect.height() <= 0:
+                    print("Ошибка: Некорректный sceneRect")
+                    return
+
+            # Масштабировать изображение с сохранением пропорций
+            self.ui.graphicsView_3.fitInView(rect, Qt.AspectRatioMode.KeepAspectRatio)
 
     def load_image(self, file_path):
             # Загрузить изображение в QPixmap
@@ -1232,7 +1344,8 @@ class MainWindow(QMainWindow):
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                msg.setText("Не было выбрано изображение!")  # Основной текст
+                msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
+                msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.\n")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Open)  # Кнопки
                 msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1259,6 +1372,7 @@ class MainWindow(QMainWindow):
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
                     msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1296,6 +1410,8 @@ class MainWindow(QMainWindow):
                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
                 msg.setText("Не было выбрано изображение!")  # Основной текст
+                msg.setInformativeText(
+                        "Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Open)  # Кнопки
                 msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1404,6 +1520,7 @@ class MainWindow(QMainWindow):
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
                     msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1477,6 +1594,7 @@ class MainWindow(QMainWindow):
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
                     msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1566,6 +1684,7 @@ class MainWindow(QMainWindow):
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
                     msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1654,6 +1773,7 @@ class MainWindow(QMainWindow):
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
                     msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1987,14 +2107,14 @@ class MainWindow(QMainWindow):
             if result == QMessageBox.StandardButton.Yes:
                     QtWidgets.QApplication.quit()  # Закрыть приложение
 
-
-
     def gif_matrix(self):
             if self.file_path is None:
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
-                    msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setWindowTitle("Предупреждение                            ")  # Заголовок окна
+                    msg.setText("Не было выбрано исходное изображение!                          ")  # Основной текст
+                    msg.setInformativeText("Для построения матрицы изображений используется исходное изображение. "
+                                           "Изображение можно загрузить, нажав на кнопку Open, либо перейти в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -2061,11 +2181,11 @@ class MainWindow(QMainWindow):
                     self.ui.lineEdit_noise.setEnabled(False)
 
     def gif(self):
-            if self.file_path is None:
+            if self.file_path is None or self.file_path_2 is None:
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Для совершения фильтрации выберите исходное и направляющее изображения!")  # Основной текст
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -2076,96 +2196,113 @@ class MainWindow(QMainWindow):
                             self.open_image()
             else:
                     img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
+                    img_1 = cv2.imread(self.file_path_2, cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
-                    r = int(self.ui.lineEdit_r.text())
-                    epsilon = float(self.ui.lineEdit_epsilon.text())
+                    if img_1.shape != img.shape:
+                        msg = QMessageBox(self)
+                        msg.setIcon(QMessageBox.Icon.Critical)  # Иконка предупреждения
+                        msg.setWindowTitle("Ошибка")  # Заголовок окна
+                        msg.setText(
+                            "Изображения должны быть одинаковых размеров. Выберите другое направляющее изображение!")  # Основной текст
+                        msg.setInformativeText("Для работы с GIF-фильтром выберите направляющее изображение такого же размера, что и исходное.")
+                        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                        msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
-                    if self.ui.checkBox.isChecked():
-                            standard_deviation = int(self.ui.lineEdit_noise.text())
+                        # Ожидание выбора кнопки и обработка результата
+                        result = msg.exec()
 
-                            guided_image = img.copy()
+                        self.file_path_2 = None
 
-                            noise = np.random.normal(0, standard_deviation, img.shape).astype(np.float32)
-                            noisy_image = img.astype(np.float32) + noise
-                            noisy_image = np.clip(noisy_image, 0, 255)
+                        self.ui.scene_2.clear()
 
-                            # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
-                            mean_I = ndimage.uniform_filter(guided_image, size=2 * r + 1)
-                            mean_p = ndimage.uniform_filter(noisy_image, size=2 * r + 1)
-
-                            # 2. Вычисляем дисперсию для изображения p
-                            var_I = ndimage.uniform_filter(guided_image ** 2, size=2 * r + 1) - mean_I ** 2
-                            cov_Ip = ndimage.uniform_filter(guided_image * noisy_image, size=2 * r + 1) - mean_I * mean_p
-
-                            # 3. Вычисляем коэффициент a (линейный коэффициент)
-                            a = cov_Ip / (var_I + epsilon)
-
-                            # 4. Вычисляем смещение b
-                            b = mean_p - a * mean_I
-
-                            # 5. Вычисляем финальное отфильтрованное изображение
-                            mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
-                            mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
-
-                            q = mean_a * guided_image + mean_b
-                            output = q.astype(np.uint8)
-
-                            # Визуализация
-                            plt.figure(figsize=(15, 5))
-                            plt.subplot(1, 3, 1)
-                            plt.title("Original Image")
-                            plt.imshow(img, cmap="gray")
-                            plt.axis("off")
-
-                            plt.subplot(1, 3, 2)
-                            plt.title("Noisy Image")
-                            plt.imshow(noisy_image, cmap="gray")
-                            plt.axis("off")
-
-                            plt.subplot(1, 3, 3)
-                            plt.title("Filtered Image")
-                            plt.imshow(output, cmap="gray")
-                            plt.axis("off")
-
-                            plt.show()
                     else:
-                            guided_image = img.copy() / 255
-                            image = img.copy() / 255
+                        r = int(self.ui.lineEdit_r.text())
+                        epsilon = float(self.ui.lineEdit_epsilon.text())
 
-                            # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
-                            mean_I = ndimage.uniform_filter(guided_image, size=2 * r + 1)
-                            mean_p = ndimage.uniform_filter(image, size=2 * r + 1)
+                        if self.ui.checkBox.isChecked():
+                                standard_deviation = int(self.ui.lineEdit_noise.text())
 
-                            # 2. Вычисляем дисперсию для изображения p
-                            var_I = ndimage.uniform_filter(guided_image ** 2, size=2 * r + 1) - mean_I ** 2
-                            cov_Ip = ndimage.uniform_filter(guided_image * image, size=2 * r + 1) - mean_I * mean_p
+                                noise = np.random.normal(0, standard_deviation, img.shape).astype(np.float32)
+                                noisy_image = img.astype(np.float32) + noise
+                                noisy_image = np.clip(noisy_image, 0, 255)
 
-                            # 3. Вычисляем коэффициент a (линейный коэффициент)
-                            a = cov_Ip / (var_I + epsilon)
+                                # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+                                mean_I = ndimage.uniform_filter(img_1, size=2 * r + 1)
+                                mean_p = ndimage.uniform_filter(noisy_image, size=2 * r + 1)
 
-                            # 4. Вычисляем смещение b
-                            b = mean_p - a * mean_I
+                                # 2. Вычисляем дисперсию для изображения p
+                                var_I = ndimage.uniform_filter(img_1 ** 2, size=2 * r + 1) - mean_I ** 2
+                                cov_Ip = ndimage.uniform_filter(img_1 * noisy_image, size=2 * r + 1) - mean_I * mean_p
 
-                            # 5. Вычисляем финальное отфильтрованное изображение
-                            mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
-                            mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+                                # 3. Вычисляем коэффициент a (линейный коэффициент)
+                                a = cov_Ip / (var_I + epsilon)
 
-                            q = mean_a * guided_image + mean_b
-                            output = (q * 255).astype(np.uint8)
+                                # 4. Вычисляем смещение b
+                                b = mean_p - a * mean_I
 
-                            # Визуализация
-                            plt.figure(figsize=(10, 5))
-                            plt.subplot(1, 2, 1)
-                            plt.title("Original Image")
-                            plt.imshow(img, cmap="gray")
-                            plt.axis("off")
+                                # 5. Вычисляем финальное отфильтрованное изображение
+                                mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+                                mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
 
-                            plt.subplot(1, 2, 2)
-                            plt.title("Filtered Image")
-                            plt.imshow(output, cmap="gray")
-                            plt.axis("off")
+                                q = mean_a * img_1 + mean_b
+                                self.processed_image = q.astype(np.uint8)
 
-                            plt.show()
+                                # Визуализация
+                                plt.figure(figsize=(15, 5))
+                                plt.subplot(1, 3, 1)
+                                plt.title("Original Image")
+                                plt.imshow(img, cmap="gray")
+                                plt.axis("off")
+
+                                plt.subplot(1, 3, 2)
+                                plt.title("Noisy Image")
+                                plt.imshow(noisy_image, cmap="gray")
+                                plt.axis("off")
+
+                                plt.subplot(1, 3, 3)
+                                plt.title("Filtered Image")
+                                plt.imshow(self.processed_image, cmap="gray")
+                                plt.axis("off")
+
+                                plt.show()
+                        else:
+                                guided_image = img_1.copy() / 255
+                                image = img.copy() / 255
+
+                                # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+                                mean_I = ndimage.uniform_filter(guided_image, size=2 * r + 1)
+                                mean_p = ndimage.uniform_filter(image, size=2 * r + 1)
+
+                                # 2. Вычисляем дисперсию для изображения p
+                                var_I = ndimage.uniform_filter(guided_image ** 2, size=2 * r + 1) - mean_I ** 2
+                                cov_Ip = ndimage.uniform_filter(guided_image * image, size=2 * r + 1) - mean_I * mean_p
+
+                                # 3. Вычисляем коэффициент a (линейный коэффициент)
+                                a = cov_Ip / (var_I + epsilon)
+
+                                # 4. Вычисляем смещение b
+                                b = mean_p - a * mean_I
+
+                                # 5. Вычисляем финальное отфильтрованное изображение
+                                mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+                                mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+
+                                q = mean_a * guided_image + mean_b
+                                self.processed_image = (q * 255).astype(np.uint8)
+
+                                # Визуализация
+                                plt.figure(figsize=(10, 5))
+                                plt.subplot(1, 2, 1)
+                                plt.title("Original Image")
+                                plt.imshow(img, cmap="gray")
+                                plt.axis("off")
+
+                                plt.subplot(1, 2, 2)
+                                plt.title("Filtered Image")
+                                plt.imshow(self.processed_image, cmap="gray")
+                                plt.axis("off")
+
+                                plt.show()
 
     def guided_filter(self, I, p, r, epsilon):
             mean_I = ndimage.uniform_filter(I, size=2 * r + 1)
