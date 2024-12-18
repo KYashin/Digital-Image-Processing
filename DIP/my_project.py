@@ -1371,7 +1371,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1409,7 +1409,7 @@ class MainWindow(QMainWindow):
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                msg.setText("Не было выбрано изображение!")  # Основной текст
+                msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                 msg.setInformativeText(
                         "Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Open)  # Кнопки
@@ -1455,9 +1455,9 @@ class MainWindow(QMainWindow):
             axes[0, 0].imshow(orig_img, cmap='gray')
             axes[0, 0].set_title('Original Image', fontsize=14)
             axes[0, 0].axis('off')  # Убираем оси
+            axes[0, 1].set_title('Changed Image', fontsize=14)
 
             axes[0, 1].imshow(changed_img, cmap='gray')
-            axes[0, 1].set_title('Changed Image', fontsize=14)
             axes[0, 1].axis('off')  # Убираем оси
 
             # Гистограмма для оригинального изображения
@@ -1519,7 +1519,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1593,7 +1593,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1683,7 +1683,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1772,7 +1772,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
