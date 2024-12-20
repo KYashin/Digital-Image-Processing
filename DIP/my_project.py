@@ -1455,9 +1455,9 @@ class MainWindow(QMainWindow):
             axes[0, 0].imshow(orig_img, cmap='gray')
             axes[0, 0].set_title('Original Image', fontsize=14)
             axes[0, 0].axis('off')  # Убираем оси
+            axes[0, 1].set_title('Changed Image', fontsize=14)
 
             axes[0, 1].imshow(changed_img, cmap='gray')
-            axes[0, 1].set_title('Changed Image', fontsize=14)
             axes[0, 1].axis('off')  # Убираем оси
 
             # Гистограмма для оригинального изображения
