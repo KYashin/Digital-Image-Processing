@@ -1345,7 +1345,7 @@ class MainWindow(QMainWindow):
                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
                 msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
-                msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.\n")
+                msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Open)  # Кнопки
                 msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
@@ -1371,7 +1371,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1409,7 +1409,7 @@ class MainWindow(QMainWindow):
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                 msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                msg.setText("Не было выбрано изображение!")  # Основной текст
+                msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                 msg.setInformativeText(
                         "Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok|QMessageBox.StandardButton.Open)  # Кнопки
@@ -1519,7 +1519,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1531,27 +1531,30 @@ class MainWindow(QMainWindow):
                             self.open_image()
             else:
                     # Считываем изображение в градациях серого
-                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
+                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
-                    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
-                    for y in range(img_1.shape[0]):
-                            for x in range(img_1.shape[1]):
-                                    img_1[y, x] = img[y, x] + self.current_brightness
-                                    if self.current_brightness < 0:
-                                            if img_1[y, x] < 0:
-                                                    img_1[y, x] = 0
-                                    elif self.current_brightness > 0:
-                                            if img_1[y, x] > 255:
-                                                    img_1[y, x] = 255
+                    # img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
+                    # for y in range(img_1.shape[0]):
+                    #         for x in range(img_1.shape[1]):
+                    #                 img_1[y, x] = img[y, x] + self.current_brightness
+                    #                 if self.current_brightness < 0:
+                    #                         if img_1[y, x] < 0:
+                    #                                 img_1[y, x] = 0
+                    #                 elif self.current_brightness > 0:
+                    #                         if img_1[y, x] > 255:
+                    #                                 img_1[y, x] = 255
+
+                    # Добавляем яркость и ограничиваем значения в диапазоне [0, 255]
+                    img_1 = np.clip(img + self.current_brightness, 0, 255)
 
                     img_1 = img_1.astype(np.uint8)
 
                     self.processed_image = img_1
 
-                    orig_hist = self.calculate_histogram(img)
+                    orig_hist = self.calculate_histogram(img.astype(np.uint8))
                     changed_hist = self.calculate_histogram(img_1)
 
-                    self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
+                    self.show_histograms_and_images(img.astype(np.uint8), img_1, orig_hist, changed_hist)
 
     def update_binarization_line_edit(self, value):
         # Обновляем текст в QLineEdit
@@ -1593,7 +1596,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1683,7 +1686,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1694,21 +1697,30 @@ class MainWindow(QMainWindow):
                     if result == QMessageBox.StandardButton.Open:
                             self.open_image()
             else:
-                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
+                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
-                    img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
-                    for y in range(img.shape[0]):
-                            for x in range(img.shape[1]):
-                                    img_1[y, x] = np.clip(self.current_contrast * img[y, x], 0, 255)
+                    # img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
+                    # for y in range(img.shape[0]):
+                    #         for x in range(img.shape[1]):
+                    #             # Изменение контраста с учетом сдвига
+                    #             new_value = self.current_contrast * (img[y, x] - 128) + 128
+                    #             # Ограничиваем значения в диапазоне [0, 255]
+                    #             img_1[y, x] = np.clip(new_value, 0, 255)
+
+                    # Применяем изменение контраста с учётом сдвига
+                    img_1 = self.current_contrast * (img - 128) + 128
+
+                    # Ограничиваем значения в диапазоне [0, 255]
+                    img_1 = np.clip(img_1, 0, 255)
 
                     img_1 = img_1.astype(np.uint8)
 
                     self.processed_image = img_1
 
-                    orig_hist = self.calculate_histogram(img)
+                    orig_hist = self.calculate_histogram(img.astype(np.uint8))
                     changed_hist = self.calculate_histogram(img_1)
 
-                    self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
+                    self.show_histograms_and_images(img.astype(np.uint8), img_1, orig_hist, changed_hist)
 
     def update_gamma_line_edit(self, value):
             # Обновляем текст в QLineEdit
@@ -1772,7 +1784,7 @@ class MainWindow(QMainWindow):
                     msg = QMessageBox(self)
                     msg.setIcon(QMessageBox.Icon.Warning)  # Иконка предупреждения
                     msg.setWindowTitle("Предупреждение")  # Заголовок окна
-                    msg.setText("Не было выбрано изображение!")  # Основной текст
+                    msg.setText("Не было выбрано изображение!                                         ")  # Основной текст
                     msg.setInformativeText("Для выбора изображения нажмите на кнопку Open, либо перейдите в Файл->Открыть изображение.")
                     msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Open)  # Кнопки
                     msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
@@ -1783,21 +1795,24 @@ class MainWindow(QMainWindow):
                     if result == QMessageBox.StandardButton.Open:
                             self.open_image()
             else:
-                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE)
+                    img = cv2.imread(self.file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
-                    img_1 = np.zeros((img.shape[0], img.shape[1]))
-                    for y in range(img_1.shape[0]):
-                            for x in range(img_1.shape[1]):
-                                    img_1[y, x] = 255 * (img[y, x] / 255) ** self.current_gamma
+                    # img_1 = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
+                    # for y in range(img_1.shape[0]):
+                    #         for x in range(img_1.shape[1]):
+                    #                 img_1[y, x] = 255 * (img[y, x] / 255) ** self.current_gamma
+
+                    # Применяем гамма-коррекцию ко всему изображению
+                    img_1 = 255 * (img / 255) ** self.current_gamma
 
                     img_1 = np.clip(img_1, 0, 255).astype(np.uint8)
 
                     self.processed_image = img_1
 
-                    orig_hist = self.calculate_histogram(img)
+                    orig_hist = self.calculate_histogram(img.astype(np.uint8))
                     changed_hist = self.calculate_histogram(img_1)
 
-                    self.show_histograms_and_images(img, img_1, orig_hist, changed_hist)
+                    self.show_histograms_and_images(img.astype(np.uint8), img_1, orig_hist, changed_hist)
 
     def save_image(self):
             if self.processed_image is not None:
@@ -2153,7 +2168,7 @@ class MainWindow(QMainWindow):
     def check_input_noise(self):
             text = self.ui.lineEdit_noise.text()
             if text and (not text.isdigit() or int(text) > 5000):
-                    self.ui.lineEdit_r.backspace()
+                    self.ui.lineEdit_noise.backspace()
 
     def check_range_epsilon(self):
         text = self.ui.lineEdit_epsilon.text()
@@ -2220,51 +2235,62 @@ class MainWindow(QMainWindow):
                         epsilon = float(self.ui.lineEdit_epsilon.text())
 
                         if self.ui.checkBox.isChecked():
-                                standard_deviation = int(self.ui.lineEdit_noise.text())
+                                if self.ui.lineEdit_noise.text() == "":
+                                        msg = QMessageBox(self)
+                                        msg.setIcon(QMessageBox.Icon.Critical)  # Иконка предупреждения
+                                        msg.setWindowTitle("Ошибка")  # Заголовок окна
+                                        msg.setText("Введите СКО шума от 1 до 5000!")
+                                        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                                        msg.setDefaultButton(QMessageBox.StandardButton.Ok)  # Кнопка по умолчанию
 
-                                noise = np.random.normal(0, standard_deviation, img.shape).astype(np.float32)
-                                noisy_image = img.astype(np.float32) + noise
-                                noisy_image = np.clip(noisy_image, 0, 255)
+                                        # Ожидание выбора кнопки и обработка результата
+                                        result = msg.exec()
+                                else:
+                                        standard_deviation = int(self.ui.lineEdit_noise.text())
 
-                                # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
-                                mean_I = ndimage.uniform_filter(img_1, size=2 * r + 1)
-                                mean_p = ndimage.uniform_filter(noisy_image, size=2 * r + 1)
+                                        noise = np.random.normal(0, standard_deviation, img.shape).astype(np.float32)
+                                        noisy_image = img.astype(np.float32) + noise
+                                        noisy_image = np.clip(noisy_image, 0, 255)
 
-                                # 2. Вычисляем дисперсию для изображения p
-                                var_I = ndimage.uniform_filter(img_1 ** 2, size=2 * r + 1) - mean_I ** 2
-                                cov_Ip = ndimage.uniform_filter(img_1 * noisy_image, size=2 * r + 1) - mean_I * mean_p
+                                        # 1. Вычисляем среднее значение для изображений I и p в окне радиуса r
+                                        mean_I = ndimage.uniform_filter(img_1, size=2 * r + 1)
+                                        mean_p = ndimage.uniform_filter(noisy_image, size=2 * r + 1)
 
-                                # 3. Вычисляем коэффициент a (линейный коэффициент)
-                                a = cov_Ip / (var_I + epsilon)
+                                        # 2. Вычисляем дисперсию для изображения p
+                                        var_I = ndimage.uniform_filter(img_1 ** 2, size=2 * r + 1) - mean_I ** 2
+                                        cov_Ip = ndimage.uniform_filter(img_1 * noisy_image, size=2 * r + 1) - mean_I * mean_p
 
-                                # 4. Вычисляем смещение b
-                                b = mean_p - a * mean_I
+                                        # 3. Вычисляем коэффициент a (линейный коэффициент)
+                                        a = cov_Ip / (var_I + epsilon)
 
-                                # 5. Вычисляем финальное отфильтрованное изображение
-                                mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
-                                mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
+                                        # 4. Вычисляем смещение b
+                                        b = mean_p - a * mean_I
 
-                                q = mean_a * img_1 + mean_b
-                                self.processed_image = q.astype(np.uint8)
+                                        # 5. Вычисляем финальное отфильтрованное изображение
+                                        mean_a = ndimage.uniform_filter(a, size=2 * r + 1)
+                                        mean_b = ndimage.uniform_filter(b, size=2 * r + 1)
 
-                                # Визуализация
-                                plt.figure(figsize=(15, 5))
-                                plt.subplot(1, 3, 1)
-                                plt.title("Original Image")
-                                plt.imshow(img, cmap="gray")
-                                plt.axis("off")
+                                        q = mean_a * img_1 + mean_b
+                                        self.processed_image = q.astype(np.uint8)
 
-                                plt.subplot(1, 3, 2)
-                                plt.title("Noisy Image")
-                                plt.imshow(noisy_image, cmap="gray")
-                                plt.axis("off")
+                                        # Визуализация
+                                        plt.figure(figsize=(15, 5))
+                                        plt.subplot(1, 3, 1)
+                                        plt.title("Original Image")
+                                        plt.imshow(img, cmap="gray")
+                                        plt.axis("off")
 
-                                plt.subplot(1, 3, 3)
-                                plt.title("Filtered Image")
-                                plt.imshow(self.processed_image, cmap="gray")
-                                plt.axis("off")
+                                        plt.subplot(1, 3, 2)
+                                        plt.title("Noisy Image")
+                                        plt.imshow(noisy_image, cmap="gray")
+                                        plt.axis("off")
 
-                                plt.show()
+                                        plt.subplot(1, 3, 3)
+                                        plt.title("Filtered Image")
+                                        plt.imshow(self.processed_image, cmap="gray")
+                                        plt.axis("off")
+
+                                        plt.show()
                         else:
                                 guided_image = img_1.copy() / 255
                                 image = img.copy() / 255

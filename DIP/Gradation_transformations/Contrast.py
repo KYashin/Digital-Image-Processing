@@ -62,4 +62,4 @@ def show_histograms_and_images(orig_img, changed_img, orig_hist, changed_hist):
     plt.tight_layout()
     plt.show()
 
-contrast(r'D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png', 1.5)
+contrast(r'D:\pythonProject\DIP\Images_DIP\Lenna_test_image.png', 0.1)
